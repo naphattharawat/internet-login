@@ -1,0 +1,78 @@
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
+<!-- <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko"> -->
+<html>
+
+<head>
+  <title>Cross-Browser QRCode generator for Javascript</title>
+  <!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> -->
+  <!-- <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" /> -->
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <script type="text/javascript" src="qrcode.js"></script>
+  <script type="text/javascript" src="socket.io.min.js"></script>
+</head>
+
+<body>
+  <!-- <input id="text" type="text" value="http://jindo.dev.naver.com/collie" style="width:80%" /><br /> -->
+  <div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
+
+  <script type="text/javascript">
+    var socketId;
+    var socket = io('http://localhost:3003', {
+      withCredentials: true,
+    });
+
+    socket.on('connect', function (msg) {
+      console.log(socket);
+      socketId = socket.id;
+      makeQRCode(socket.id);
+      subscribe(socket.id);
+    });
+
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+      width: 100,
+      height: 100
+    });
+
+    function makeQRCode(id) {
+      // socket = io('http://localhost:3003', {
+      //   withCredentials: true,
+      // });
+      console.log(id);
+      var url = `mymoph://qr?clientId=dQwGiPuucehlbSEVXiVU&sessionId=${id}`
+      qrcode.makeCode(url);
+    }
+
+    makeQRCode();
+    // $(document).ready(function () {
+    // });
+    function subscribe(){
+      console.log(socketId)
+      socket.on(socketId, function (msg) {
+        console.log(msg);
+      });
+    }
+  </script>
+  <!-- <script>
+    var socket = io();
+    console.log(socket);
+
+    var messages = document.getElementById('messages');
+    var form = document.getElementById('form');
+    var input = document.getElementById('input');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (input.value) {
+        socket.emit('chat message', input.value);
+        input.value = '';
+      }
+    });
+
+    socket.on('chat message', function (msg) {
+      var item = document.createElement('li');
+      item.textContent = msg;
+      messages.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+  </script> -->
+</body>
