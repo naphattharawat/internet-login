@@ -152,7 +152,7 @@
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      const url = `http://10.10.1.1:1000/fgtauth?${params.magic}&username=${username}&${password}=password`;
+      const url = `http://10.10.1.1:1000/fgtauth?${params.magic}&username=${username}&password=${password}`;
       console.log(url);
       window.location.href = url;
     }
