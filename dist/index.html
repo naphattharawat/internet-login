@@ -104,18 +104,18 @@
   <!--===============================================================================================-->
   <script src="js/main.js"></script>
   <script type="text/javascript">
-    // var socket = io('http://members.moph.go.th', {
-    //   path: "/authen/socket.io"
-    // });
+    var socket = io('http://members.moph.go.th', {
+      path: "/authen/socket.io"
+    });
     // var socket = io('http://localhost:3003', {
     //   withCredentials: true,
     // });
 
-    // socket.on('connect', function (msg) {
-    //   console.log(socket);
-    //   makeQRCode(socket.id);
-    //   subscribe(socket.id);
-    // });
+    socket.on('connect', function (msg) {
+      console.log(socket);
+      makeQRCode(socket.id);
+      subscribe(socket.id);
+    });
 
     var qrcode = new QRCode(document.getElementById("qrcode"), {
       width: 200,
@@ -130,17 +130,17 @@
 
     makeQRCode();
 
-    // function subscribe(socketId) {
-    //   console.log(socketId)
-    //   socket.on(socketId, function (msg) {
-    //     console.log(msg);
-    //     if (msg) {
-    //       const json = JSON.parse(msg);
-    //       loginFromSocket(json.username, json.password);
-    //     }
-    //     console.log(msg);
-    //   });
-    // }
+    function subscribe(socketId) {
+      console.log(socketId)
+      socket.on(socketId, function (msg) {
+        console.log(msg);
+        if (msg) {
+          const json = JSON.parse(msg);
+          loginFromSocket(json.username, json.password);
+        }
+        console.log(msg);
+      });
+    }
 
     function login() {
       const username = document.getElementById("username").value;
