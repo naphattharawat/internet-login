@@ -47,18 +47,33 @@ app.get('/test/:id', (req, res) => {
 app.post('/mymoph', (req, res) => {
   try {
     const { session_id, access_token, refresh_token } = req.body;
-    //   1|api  |   clientId: 'dQwGiPuucehlbSEVXiVU',
-    // 1|api  |   sessionId: 'undefined',
-    // 1|api  |   refreshToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWQiOiIxMTAwNDAwNzI4NTY0IiwiY29udGV4dCI6bnVsbCwiZXhwIjoxNzA1Njc3NzIzLCJpYXQiOjE2NzQxNDE3MjMsImlzcyI6ImF1dGhfbWVtYmVyIiwicmVmcmVzaF91dWlkIjoiY2Q5NDBlYmItNTA5ZS00MzNiLTlhODgtYjVlNDliODY1OTY1Iiwic3ViIjoiZGMzYWVlZTYtZjI3My00ZGZiLWEzM2MtMjQ1NTE2NDg5NjEyIn0.wRs5uO056CgrfMlzY1pS-cjxGeWo7t2thhBjHFNeKGU',
-    // 1|api  |   accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdXVpZCI6Ijg2MzU2YTQyLTg3NmItNGEzMy1hZDVlLTZiNmM4YjlkZWZhYiIsImNpZCI6IjExMDA0MDA3Mjg1NjQiLCJjb250ZXh0Ijp7fSwiZXhwIjoxNjc0MTQyNjIzLCJpYXQiOjE2NzQxNDE3MjMsImlzcyI6ImF1dGhfbWVtYmVyIiwic3ViIjoiZGMzYWVlZTYtZjI3My00ZGZiLWEzM2MtMjQ1NTE2NDg5NjEyIn0.gZvnIoKBigeT5sZgdstECFENMgOesiB_ekcxYhtv_nI'
-    // 1|api  | }
-    console.log('mymoph_session_id ' + session_id);
-    const obj = {
-      username: 'test',
-      password: 'test'
-    }
-    io.emit(session_id, JSON.stringify(obj));
-    res.send({ ok: true });
+    const options = {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${access_token}` }
+    };
+
+    fetch('https://members.moph.go.th/api/v1/m/user', options)
+      .then(response => response.json())
+      .then(response => {
+        console.log('mymoph_session_id ' + session_id);
+        const obj = {
+          username: response.cid,
+          password: response.password_internet
+        }
+        io.emit(session_id, JSON.stringify(obj));
+        res.send({ ok: true });
+
+      })
+      .catch(err => console.error(err));
+
+
+    // console.log('mymoph_session_id ' + session_id);
+    // const obj = {
+    //   username: response.cid,
+    //   password: response.password_internet
+    // }
+    // io.emit(session_id, JSON.stringify(obj));
+    // res.send({ ok: true });
 
   } catch (error) {
     console.log(error);
