@@ -153,7 +153,7 @@
       const url = "http://10.10.1.1:1000/fgtauth?" + params.magic + "&username=" + username +
         "&password=" + password;
         console.log(url);
-      window.location.href = url;
+      window.location.replace = url;
     }
     // http://10.10.1.1:1000/fgtauth?000e0e9c9416a1f0
 
@@ -161,7 +161,7 @@
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      window.location.href = "http://10.10.1.1:1000/fgtauth?" + params.magic + "&username=" + username +
+      window.location.replace = "http://10.10.1.1:1000/fgtauth?" + params.magic + "&username=" + username +
         "&password=" + password;
     }
   </script>
