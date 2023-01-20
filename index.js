@@ -66,12 +66,13 @@ app.post('/mymoph', async (req, res) => {
   try {
     const { session_id, access_token, refresh_token } = req.body;
     const info = await getUsername(access_token);
-    console.log(info);
-    console.log('mymoph_session_id ' + session_id);
+    // console.log(info);
     const obj = {
       username: info.cid,
       password: info.password_internet
     }
+    console.log(obj);
+    console.log('mymoph_session_id ' + session_id);
     io.emit(session_id, JSON.stringify(obj));
     res.send({ ok: true });
 
