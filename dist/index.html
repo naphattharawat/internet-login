@@ -33,7 +33,7 @@
         <div class="login100-pic js-tilt" data-tilt>
           <div id="qrcode" style="width: 100%;"></div>
         </div>
-        <form class="login100-form validate-form">
+        <div class="login100-form validate-form">
           <span class="login100-form-title">
             Member Login
           </span>
@@ -57,7 +57,7 @@
           </div>
 
           <div class="container-login100-form-btn">
-            <button class="login100-form-btn" onclick="login()">
+            <button class="login100-form-btn" type="button" onclick="login()">
               Login
             </button>
           </div>
@@ -77,7 +77,7 @@
               <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
             </a>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
@@ -150,9 +150,9 @@
       });
       const url = `http://10.10.1.1:1000/fgtauth?${params.magic}&username=${username}&password=${password}`;
       console.log(url);
-      window.open(url, '_parent');
+      // window.open(url, '_parent');
       // document.location.href = url;
-      // window.location.href = url;
+      window.location.href = url;
       // return false;
     }
     // http://10.10.1.1:1000/fgtauth?000e0e9c9416a1f0
