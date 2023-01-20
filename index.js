@@ -3,6 +3,7 @@ const app = express();
 bodyParser = require('body-parser');
 var path = require('path');
 const http = require('http');
+const request = require('request');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 var cors = require('cors')
@@ -43,28 +44,36 @@ app.get('/test/:id', (req, res) => {
   res.send({ ok: true });
 
 });
+function getUsername(token) {
+  const options = {
+    method: 'GET',
+    url: 'https://members.moph.go.th/api/v2/user',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
 
-app.post('/mymoph', (req, res) => {
+  return new Promise((resolve, reject) => {
+    request(options, function (error, response, body) {
+      if (error) { reject(error) } else {
+        resolve(body);
+      }
+    });
+  })
+
+}
+app.post('/mymoph', async (req, res) => {
   try {
     const { session_id, access_token, refresh_token } = req.body;
-    const options = {
-      method: 'GET',
-      headers: { Authorization: `Bearer ${access_token}` }
-    };
-
-    fetch('https://members.moph.go.th/api/v1/m/user', options)
-      .then(response => response.json())
-      .then(response => {
-        console.log('mymoph_session_id ' + session_id);
-        const obj = {
-          username: response.cid,
-          password: response.password_internet
-        }
-        io.emit(session_id, JSON.stringify(obj));
-        res.send({ ok: true });
-
-      })
-      .catch(err => console.error(err));
+    const info = await getUsername(access_token);
+    console.log(info);
+    console.log('mymoph_session_id ' + session_id);
+    const obj = {
+      username: info.cid,
+      password: info.password_internet
+    }
+    io.emit(session_id, JSON.stringify(obj));
+    res.send({ ok: true });
 
 
     // console.log('mymoph_session_id ' + session_id);
