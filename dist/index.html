@@ -47,8 +47,8 @@
           </div>
 
           <!-- <div class="wrap-input100 validate-input"> -->
-            <!-- <div class="wrap-input100 validate-input" data-validate="Password is required"> -->
-            <div class="wrap-input100">
+          <!-- <div class="wrap-input100 validate-input" data-validate="Password is required"> -->
+          <div class="wrap-input100">
             <input class="input100" id="password" type="password" name="password" placeholder="Password">
             <span class="focus-input100"></span>
             <span class="symbol-input100">
@@ -152,10 +152,9 @@
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      const url = "http://10.10.1.1:1000/fgtauth?" + params.magic + "&username=" + username +
-        "&password=" + password;
-        console.log(url);
-      window.location.replace = url;
+      const url = `http://10.10.1.1:1000/fgtauth?${params.magic}&username=${username}&${password}=password`;
+      console.log(url);
+      window.location.href = url;
     }
     // http://10.10.1.1:1000/fgtauth?000e0e9c9416a1f0
 
@@ -163,7 +162,7 @@
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      window.location.replace = "http://10.10.1.1:1000/fgtauth?" + params.magic + "&username=" + username +
+      window.location.href = "http://10.10.1.1:1000/fgtauth?" + params.magic + "&username=" + username +
         "&password=" + password;
     }
   </script>
