@@ -56,7 +56,7 @@ function getUsername(token) {
   return new Promise((resolve, reject) => {
     request(options, function (error, response, body) {
       if (error) { reject(error) } else {
-        resolve(body);
+        resolve(JSON.parse(body));
       }
     });
   })
