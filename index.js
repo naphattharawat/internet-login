@@ -9,7 +9,7 @@ var cors = require('cors')
 app.use(cors())
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
-const io = new Server(server);
+const io = new Server(server, { secure: true });
 // const io = new Server(server,
 //   {
 //     cors: {
