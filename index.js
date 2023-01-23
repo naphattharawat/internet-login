@@ -104,15 +104,10 @@ app.get('/mymoph', async (req, res) => {
     const { session_id, access_token, ip } = req.query;
     const info = await getUsername(access_token);
     // console.log(info);
-    const obj = {
-      username: info.cid,
-      password: info.password_internet
-    }
-    console.log(obj);
     console.log('mymoph_session_id ' + session_id);
     // io.emit(session_id, JSON.stringify(obj));
 
-    const url = `http://${ip}/fgtauth?${session_id}&username=mymoph_${username}&password=${password}`
+    const url = `http://${ip}/fgtauth?${session_id}&username=mymoph_${info.cid}&password=${info.password_internet}`
     res.render('mymoph', {
       url: url
     })
