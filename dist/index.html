@@ -43,6 +43,9 @@
           <span class="login100-form-title">
             Internet Login (Beta)
           </span>
+          <span class="login100-form-subtitle"  id="message" style="display: none;">
+            Username หรือ รหัสผ่านผ่านไม่ถูกต้อง
+          </span>
 
           <div class="wrap-input100 validate-input">
             <input class="input100" id="username" type="text" name="username" placeholder="Username">
@@ -184,6 +187,8 @@
     if(params.status){
       if(params.status=='FAILED'){
         console.log('failed');
+        var x = document.getElementById("message");
+        x.style.display = "block";
       }
     }
   </script>
