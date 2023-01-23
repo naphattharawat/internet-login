@@ -149,12 +149,8 @@
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      const url = `http://10.10.1.1:1000/fgtauth?${params.magic}&username=${username}&password=${password}`;
-      console.log(url);
-      // window.open(url, '_parent');
-      // document.location.href = url;
+      const url = `http://${params.ip}/fgtauth?${params.magic}&username=${username}&password=${password}`;
       window.location.href = url;
-      // return false;
     }
     // http://10.10.1.1:1000/fgtauth?000e0e9c9416a1f0
 
@@ -162,8 +158,8 @@
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      window.location.href = "http://10.10.1.1:1000/fgtauth?" + params.magic + "&username=mymoph_" + username +
-        "&password=" + password;
+      const url = `http://${params.ip}/fgtauth?${params.magic}&username=mymoph_${username}&password=${password}`;
+      window.location.href = url;
     }
   </script>
 </body>
