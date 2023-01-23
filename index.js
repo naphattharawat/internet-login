@@ -85,16 +85,25 @@ app.post('/mymoph', async (req, res) => {
     console.log('mymoph_session_id ' + session_id);
     io.emit(session_id, JSON.stringify(obj));
     res.send({ ok: true });
+  } catch (error) {
+    console.log(error);
+    res.send({ ok: false });
+  }
+});
 
-
-    // console.log('mymoph_session_id ' + session_id);
-    // const obj = {
-    //   username: response.cid,
-    //   password: response.password_internet
-    // }
-    // io.emit(session_id, JSON.stringify(obj));
-    // res.send({ ok: true });
-
+app.get('/mymoph', async (req, res) => {
+  try {
+    const { session_id, access_token, refresh_token } = req.query;
+    const info = await getUsername(access_token);
+    // console.log(info);
+    const obj = {
+      username: info.cid,
+      password: info.password_internet
+    }
+    console.log(obj);
+    console.log('mymoph_session_id ' + session_id);
+    io.emit(session_id, JSON.stringify(obj));
+    res.send({ ok: true });
   } catch (error) {
     console.log(error);
     res.send({ ok: false });

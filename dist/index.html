@@ -4,7 +4,7 @@
 <head>
   <title>Login V1</title>
   <meta charset="UTF-8">
-  <meta http-equiv='refresh' content='60; URL=http://moph.go.th'>
+  <meta http-equiv='refresh' content='60; URL=/'>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--===============================================================================================-->
   <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
@@ -23,7 +23,35 @@
   <link rel="stylesheet" type="text/css" href="css/main.css">
   <!-- <script type="text/javascript" src="jquery.min.js"></script> -->
   <!--===============================================================================================-->
+  <style>
+    @media (max-width: 480px) {
+      .size-controller {
+        width: 100%;
+      }
 
+      .mobile-16px-font {
+        font-size: 16px !important;
+      }
+
+      .mobile-hide {
+        display: none;
+      }
+
+      .mobile-100-percent {
+        width: 100% !important;
+      }
+    }
+
+    @media (min-width: 480px) {
+      .mobile-hide {
+        display: inline;
+      }
+
+      .mobile-show {
+        display: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -43,7 +71,7 @@
           <span class="login100-form-title">
             Internet Login (Beta)
           </span>
-          <span class="login100-form-subtitle"  id="message" style="display: none;">
+          <span class="login100-form-subtitle" id="message" style="display: none;">
             Username หรือ รหัสผ่านผ่านไม่ถูกต้อง
           </span>
 
@@ -94,7 +122,9 @@
                 โทร. 02-590-1169
               </p>
             </div>
-
+            <div class="mobile-show">
+              test
+            </div>
           </div>
         </div>
 
@@ -184,8 +214,8 @@
     const params = new Proxy(new URLSearchParams(window.location.search), {
       get: (searchParams, prop) => searchParams.get(prop),
     });
-    if(params.status){
-      if(params.status=='FAILED'){
+    if (params.status) {
+      if (params.status == 'FAILED') {
         console.log('failed');
         var x = document.getElementById("message");
         x.style.display = "block";
