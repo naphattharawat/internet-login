@@ -162,7 +162,7 @@
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      window.location.href = "http://10.10.1.1:1000/fgtauth?" + params.magic + "&username=" + username +
+      window.location.href = "http://10.10.1.1:1000/fgtauth?" + params.magic + "&username=mymoph_" + username +
         "&password=" + password;
     }
   </script>
