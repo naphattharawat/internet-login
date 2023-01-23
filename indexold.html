@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>
+      ICT MOPH Authen
+    </title>
+    <!-- Bootstrap -->
+    <link href="https://ops.moph.go.th/public/assets/css/bootstrap.3.3.5.min.css" rel="stylesheet">
+  </head>
+  <body style="background-color: #056839;">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+          <div class="panel panel-default" style="margin-top: 15px;">
+            <div class="panel-body">
+              <div class="text-center">
+                <img class="login-moph" src="https://ops.moph.go.th/public/assets/images/moph-wifi.png" title="Office of Permanent Secretary Ministry of Public Health">
+              </div>
+              
+              <section>
+                <form method="post" action="%%KEEPALIVEURL%%">
+                  <div class="form-group">
+                    <label for="username">
+                      Username
+                    </label>
+                    <input id="username" name="%%USERNAMEID%%" class="form-control" required type="text" placeholder="Enter your username">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="password">
+                      Password
+                    </label>
+                    <input id="password"  name="%%PASSWORDID%%" class="form-control" required type="password" placeholder="Password">
+                  </div>
+                  
+                  <div class="text-right">
+                    <input type="submit" name="submit" class="btn btn-info btn-lg btn-block" value="Log In" class="login-button">
+                    <input  type="hidden" name="%%MAGICID%%" value="%%MAGICVAL%%">
+                    <INPUT TYPE="hidden" NAME="%%REDIRID%%" VALUE="%%PROTURI%%">
+                    
+                    <input type="hidden" name="%%METHODID%%" value="%%METHODVAL%%">
+                    
+                  </div>
+                  
+                </form>
+                
+              </section>
+              <footer>
+                <div class="row" style="margin-top: 35px;">
+                  <div class="col-xs-3">
+                    <img src="https://ops.moph.go.th/public/assets/images/icon-ict-moph.png" title="">
+                  </div>
+                  <div class="col-xs-9 text-right" style="font-family: Helvetica, Tahoma, sans-serif;">
+                    <p>
+                      ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร 
+                      <br>
+                      สำนักงานปลัดกระทรวงสาธารณสุข
+                      <br>
+                      โทร. 02-590-1169
+                    </p>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
