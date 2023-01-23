@@ -3,20 +3,22 @@
   
   <head>
     <style>
-       #txtPassword{
-           -webkit-text-security:disc;
-       }
-   </style>
-    <script>
-      const params = new Proxy(new URLSearchParams(window.location.search), {
-        get: (searchParams, prop) => searchParams.get(prop),
+      #txtPassword{
+        -webkit-text-security:disc;
       }
-                              );
+    </style>
+    <script>
+      var currentLocation = window.location;
+      console.log(currentLocation.host)
+        const params = new Proxy(new URLSearchParams(window.location.search), {
+          get: (searchParams, prop) => searchParams.get(prop),
+        }
+                                );
       if (!params.username) {
         console.log('not found username');
         // window.location.href = "http://localhost?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&";
-        window.location.href = "http://members.moph.go.th/authen?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&";
-      }
+        window.location.href = `http://members.moph.go.th/authen?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&ip=${currentLocation.host}`;
+          }
       else if (params.username && params.password) {
         console.log('found username');
         console.log(params.username);
@@ -156,14 +158,3 @@
   </body>
   
 </html>
-<!-- 
-<a
-href="http://localhost?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&">
-<button>
-GOto
-</button>
-</a>
--->
-<!-- 
-<META HTTP-EQUIV="Refresh" CONTENT="5;URL=http://www.yourdomainname.com">
--->

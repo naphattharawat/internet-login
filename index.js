@@ -42,6 +42,11 @@ app.get('/2', (req, res) => {
   res.sendFile(path.join(__dirname, './indexold.html'));
 
 });
+app.get('/3', (req, res) => {
+  // app.use(express.static(path.join(__dirname, 'dist')));
+  res.sendFile(path.join(__dirname, './fotigate-login-new.html'));
+
+});
 
 app.get('/test/:id', (req, res) => {
   const id = req.params.id;
