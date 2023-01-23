@@ -221,6 +221,15 @@
         x.style.display = "block";
       }
     }
+
+    function gotoMyMOPH(id) {
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+      console.log(id);
+      var url = `mymoph://authen?appId=dQwGiPuucehlbSEVXiVU&sessionId=${params.magic}&ip=${params.ip}`
+      qrcode.makeCode(url);
+    }
   </script>
 </body>
 
