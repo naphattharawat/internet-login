@@ -8,6 +8,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 var cors = require('cors')
 app.use(cors())
+app.set('view engine', 'ejs');
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 const io = new Server(server, { secure: true });
@@ -45,6 +46,13 @@ app.get('/2', (req, res) => {
 app.get('/3', (req, res) => {
   // app.use(express.static(path.join(__dirname, 'dist')));
   res.sendFile(path.join(__dirname, './fotigate-login-new.html'));
+
+});
+app.get('/4', (req, res) => {
+  // app.use(express.static(path.join(__dirname, 'dist')));
+  res.render('test', {
+    topic: 'abc'
+  })
 
 });
 
@@ -93,7 +101,7 @@ app.post('/mymoph', async (req, res) => {
 
 app.get('/mymoph', async (req, res) => {
   try {
-    const { session_id, access_token, refresh_token } = req.query;
+    const { session_id, access_token, ip } = req.query;
     const info = await getUsername(access_token);
     // console.log(info);
     const obj = {
@@ -102,8 +110,12 @@ app.get('/mymoph', async (req, res) => {
     }
     console.log(obj);
     console.log('mymoph_session_id ' + session_id);
-    io.emit(session_id, JSON.stringify(obj));
-    res.send({ ok: true });
+    // io.emit(session_id, JSON.stringify(obj));
+
+    const url = `http://${ip}/fgtauth?${session_id}&username=mymoph_${username}&password=${password}`
+    res.render('mymoph', {
+      url: url
+    })
   } catch (error) {
     console.log(error);
     res.send({ ok: false });
