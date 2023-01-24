@@ -66,6 +66,10 @@
         </div>
         <div class="login100-pic js-tilt" data-tilt>
           <div id="qrcode" style="width: 100%;"></div>
+          refresh in 
+          <b id=countdown>
+          </b>
+          sec
         </div>
         <div class="login100-form validate-form">
           <span class="login100-form-title">
@@ -232,6 +236,39 @@
       window.location.href = url;
       close();
     }
+
+    var inputU = document.getElementById("username");
+    inputU.addEventListener("keypress", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        login();
+      }
+    });
+    var inputP = document.getElementById("password");
+    inputP.addEventListener("keypress", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        login();
+      }
+    });
+
+
+    var countDownTime = 60;
+
+    function countDown() {
+      countDownTime--;
+      // if (countDownTime <= 0) {
+      //   location.href = "%%KEEPALIVEURL%%";
+      //   return;
+      // }
+      document.getElementById('countdown').innerHTML = countDownTime;
+      counter = setTimeout("countDown()", 1000);
+    }
+
+    function startit() {
+      countDown();
+    }
+    window.onload = startit
   </script>
 </body>
 
