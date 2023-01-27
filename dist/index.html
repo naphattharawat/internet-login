@@ -66,7 +66,7 @@
         </div>
         <div class="login100-pic js-tilt" data-tilt>
           <div id="qrcode" style="width: 100%;"></div>
-          refresh in 
+          refresh in
           <b id=countdown>
           </b>
           sec
@@ -224,6 +224,15 @@
         console.log('failed');
         var x = document.getElementById("message");
         x.style.display = "block";
+      }
+    }
+
+    if (param.magic) {
+      const magicS = sessionStorage.getItem("magic");
+      if (param.magic == magicS) {
+        window.location.href = 'https://ict.moph.go.th';
+      } else {
+        const magicS = sessionStorage.setItem("magic", param.magic);
       }
     }
 
