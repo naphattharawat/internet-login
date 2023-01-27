@@ -227,12 +227,12 @@
       }
     }
 
-    if (param.magic) {
+    if (params.magic) {
       const magicS = sessionStorage.getItem("magic");
-      if (param.magic == magicS) {
-        window.location.href = 'https://ict.moph.go.th';
+      if (params.magic == magicS) {
+        window.location.href = 'http://ict.moph.go.th';
       } else {
-        const magicS = sessionStorage.setItem("magic", param.magic);
+        const magicS = sessionStorage.setItem("magic", params.magic);
       }
     }
 
