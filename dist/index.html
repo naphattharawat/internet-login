@@ -203,7 +203,8 @@
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      const url = `${params.protocol}://${params.ip}/fgtauth?${params.magic}&username=${username}&password=${password}`;
+      const protocol = params.protocol || 'http';
+      const url = `${protocol}://${params.ip}/fgtauth?${params.magic}&username=${username}&password=${password}`;
       window.location.href = url;
     }
     // http://10.10.1.1:1000/fgtauth?000e0e9c9416a1f0
@@ -212,7 +213,7 @@
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      const url = `${params.protocol}://${params.ip}/fgtauth?${params.magic}&username=mymoph_${username}&password=${password}`;
+      const url = `${protocol}://${params.ip}/fgtauth?${params.magic}&username=mymoph_${username}&password=${password}`;
       window.location.href = url;
     }
 
