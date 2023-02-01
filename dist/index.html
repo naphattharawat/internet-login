@@ -199,13 +199,13 @@
 
     function login() {
       const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+      const password = encodeURIComponent(document.getElementById("password").value);
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
       const protocol = params.protocol || 'http:';
       const url = `${protocol}//${params.ip}/fgtauth?${params.magic}&username=${username}&password=${password}`;
-      window.location.href = encodeURIComponent(url);
+      window.location.href = url;
     }
     // http://10.10.1.1:1000/fgtauth?000e0e9c9416a1f0
 
