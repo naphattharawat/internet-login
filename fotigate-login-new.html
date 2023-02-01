@@ -50,7 +50,7 @@
         const params = new Proxy(new URLSearchParams(window.location.search), {
             get: (searchParams, prop) => searchParams.get(prop),
         });
-        if (!params.username) {
+        if (!params.username || !params.password) {
             console.log('not found username');
             if (currentLocation.protocol == 'http') {
                 window.location.href =
