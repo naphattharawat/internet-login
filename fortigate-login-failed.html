@@ -22,7 +22,12 @@
               </div>
               
               <section>
-                <form method="post" action="%%KEEPALIVEURL%%">
+                <div class="alert alert-danger">
+                  กรุณาใส่ username/password อีกครั้ง
+                  <br>
+                  หรือติดต่อ เจ้าหน้าที่ โทร.02590-1169
+                </div>
+                <form method="post" action="%%AUTH_POST_URL%%">
                   <div class="form-group">
                     <label for="username">
                       Username
@@ -41,7 +46,6 @@
                     <input type="submit" name="submit" class="btn btn-info btn-lg btn-block" value="Log In" class="login-button">
                     <input  type="hidden" name="%%MAGICID%%" value="%%MAGICVAL%%">
                     <INPUT TYPE="hidden" NAME="%%REDIRID%%" VALUE="%%PROTURI%%">
-                    
                     <input type="hidden" name="%%METHODID%%" value="%%METHODVAL%%">
                     
                   </div>

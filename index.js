@@ -101,13 +101,13 @@ app.post('/mymoph', async (req, res) => {
 
 app.get('/mymoph', async (req, res) => {
   try {
-    const { session_id, access_token, ip } = req.query;
+    const { session_id, access_token, ip, protocol } = req.query;
     const info = await getUsername(access_token);
     // console.log(info);
     console.log('mymoph_session_id ' + session_id);
     // io.emit(session_id, JSON.stringify(obj));
 
-    const url = `http://${ip}/fgtauth?${session_id}&username=mymoph_${info.cid}&password=${info.password_internet}`
+    const url = `${protocol || 'http'}://${ip}/fgtauth?${session_id}&username=mymoph_${info.cid}&password=${info.password_internet}`
     res.render('mymoph', {
       url: url
     })
