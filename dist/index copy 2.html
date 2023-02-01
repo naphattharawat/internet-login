@@ -203,17 +203,9 @@
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      // const protocol = params.protocol || 'http:';
-      const protocol = window.location.protocol || 'http:';
+      const protocol = params.protocol || 'http:';
       const url = `${protocol}//${params.ip}/fgtauth?${params.magic}&username=${username}&password=${password}`;
       window.location.href = url;
-
-      // var url = 'http://example.com/vote/' + Username;
-      // var form = $('<form action="' + url + '" method="post">' +
-      //   '<input type="text" name="api_url" value="' + Return_URL + '" />' +
-      //   '</form>');
-      // $('body').append(form);
-      // form.submit();
     }
     // http://10.10.1.1:1000/fgtauth?000e0e9c9416a1f0
 

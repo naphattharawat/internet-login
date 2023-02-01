@@ -52,10 +52,10 @@
         });
         if (!params.username || !params.password) {
             console.log('not found username');
-            if (currentLocation.protocol == 'http') {
+            if (currentLocation.protocol == 'http:') {
                 window.location.href =
                     `http://members.moph.go.th/authen?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&ip=${currentLocation.host}&protocol=${currentLocation.protocol}`;
-            } else if (currentLocation.protocol == 'https') {
+            } else if (currentLocation.protocol == 'https:') {
                 window.location.href =
                     `https://members.moph.go.th/authen?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&ip=${currentLocation.host}&protocol=${currentLocation.protocol}`;
             } else {
