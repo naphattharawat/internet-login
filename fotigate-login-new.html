@@ -46,14 +46,22 @@
 
     <script>
         var currentLocation = window.location;
-        console.log(currentLocation.host);
+        console.log(currentLocation.protocol);
         const params = new Proxy(new URLSearchParams(window.location.search), {
             get: (searchParams, prop) => searchParams.get(prop),
         });
         if (!params.username) {
             console.log('not found username');
-            window.location.href =
-                `http://members.moph.go.th/authen?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&ip=${currentLocation.host}`;
+            if (currentLocation.protocol == 'http') {
+                window.location.href =
+                    `http://members.moph.go.th/authen?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&ip=${currentLocation.host}&protocol=${currentLocation.protocol}`;
+            } else if (currentLocation.protocol == 'https') {
+                window.location.href =
+                    `https://members.moph.go.th/authen?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&ip=${currentLocation.host}&protocol=${currentLocation.protocol}`;
+            } else {
+                window.location.href =
+                    `http://members.moph.go.th/authen?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&ip=${currentLocation.host}&protocol=${currentLocation.protocol}`;
+            }
         } else if (params.username && params.password) {
             console.log('found username');
             console.log(params.username);
