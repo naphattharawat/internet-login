@@ -159,6 +159,7 @@
   <!--===============================================================================================-->
   <script src="js/main.js"></script>
   <script type="text/javascript">
+    var isGoMyMOPH = false;
     const protocol = window.location.protocol || 'http:';
     var socket = io(`${protocol}//members.moph.go.th`, {
       path: "/authen/socket.io"
@@ -255,6 +256,7 @@
       var url =
         `mymoph://authen?appId=dQwGiPuucehlbSEVXiVU&sessionId=${params.magic}&ip=${params.ip}&protocol=${params.protocol}`
       window.location.href = url;
+      isGoMyMOPH = true;
       // let new_window =
       //   open(location, '_self');
 
@@ -279,7 +281,7 @@
 
 
     var countDownTime = 60;
-
+    var countDownCloseTime = 0;
     function countDown() {
       countDownTime--;
       // if (countDownTime <= 0) {
@@ -290,8 +292,17 @@
       counter = setTimeout("countDown()", 1000);
     }
 
+    function countDownClose() {
+      countDownCloseTime++;
+      if (isGoMyMOPH) {
+        self.close()
+      }
+      counter = setTimeout("countDown()", 1000);
+    }
+
     function startit() {
       countDown();
+      countDownClose();
     }
     window.onload = startit
   </script>
