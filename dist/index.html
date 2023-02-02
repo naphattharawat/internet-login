@@ -302,26 +302,12 @@
       // counter = setTimeout("countDownClose()", 5000);
       setInterval(function () {
         if (isGoMyMOPH) {
-          window.location.href = 'https://moph.go.th';
+          window.location.href = 'https://google.co.th';
         }
-      }, 5000);
+      }, 1000);
     }
 
-    document.addEventListener('visibilitychange', function () {
-      if (document.hidden) {
-        setInterval(function () {
-          if (isGoMyMOPH) {
-            window.location.href = 'https://moph.go.th';
-          }
-        }, 5000);
-      } else {
-        setInterval(function () {
-          if (isGoMyMOPH) {
-            window.location.href = 'https://moph.go.th';
-          }
-        }, 5000);
-      }
-    });
+
 
     function onClose() {
       var a = window.name = 'thisThing';
