@@ -307,6 +307,22 @@
       }, 5000);
     }
 
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) {
+        setInterval(function () {
+          if (isGoMyMOPH) {
+            window.location.href = 'https://moph.go.th';
+          }
+        }, 5000);
+      } else {
+        setInterval(function () {
+          if (isGoMyMOPH) {
+            window.location.href = 'https://moph.go.th';
+          }
+        }, 5000);
+      }
+    });
+
     function onClose() {
       var a = window.name = 'thisThing';
       a.window.open('', 'thisThing', '');
