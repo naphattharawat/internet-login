@@ -282,6 +282,7 @@
 
     var countDownTime = 60;
     var countDownCloseTime = 0;
+
     function countDown() {
       countDownTime--;
       // if (countDownTime <= 0) {
@@ -297,7 +298,7 @@
       if (isGoMyMOPH) {
         self.close()
       }
-      counter = setTimeout("countDown()", 1000);
+      counter = setTimeout("countDownClose()", 1000);
     }
 
     function startit() {
