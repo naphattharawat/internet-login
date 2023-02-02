@@ -128,6 +128,7 @@
             </div>
             <div class="mobile-show">
               <button onclick="gotoMyMOPH()" type="button">test</button>
+              <button onclick="onClose()" type="button">close</button>
 
             </div>
           </div>
@@ -299,6 +300,10 @@
         self.close()
       }
       counter = setTimeout("countDownClose()", 1000);
+    }
+
+    function onClose() {
+      self.close()
     }
 
     function startit() {
