@@ -159,7 +159,8 @@
   <!--===============================================================================================-->
   <script src="js/main.js"></script>
   <script type="text/javascript">
-    var socket = io('http://members.moph.go.th', {
+     const protocol = window.location.protocol || 'http:';
+    var socket = io(`${protocol}//members.moph.go.th`, {
       path: "/authen/socket.io"
     });
     // var socket = io('http://localhost:3003', {

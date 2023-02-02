@@ -62,6 +62,7 @@ app.get('/test/:id', (req, res) => {
   res.send({ ok: true });
 
 });
+
 function getUsername(token) {
   const options = {
     method: 'GET',
@@ -80,6 +81,7 @@ function getUsername(token) {
   })
 
 }
+
 app.post('/mymoph', async (req, res) => {
   try {
     const { session_id, access_token, refresh_token } = req.body;
