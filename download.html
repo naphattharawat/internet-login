@@ -1,0 +1,21 @@
+<button onclick="myFunction()">Download</button>
+
+
+<script>
+  myFunction();
+
+  function myFunction() {
+    if (navigator.userAgent.toLowerCase().indexOf("iphone") > -1) {
+      window.location.href = 'https://apps.apple.com/th/app/mymoph/id6443612630';
+    }
+
+    if (navigator.userAgent.toLowerCase().indexOf("android") > -1) {
+      window.location.href = 'https://play.google.com/store/apps/details?id=th.go.moph.mymoph';
+    }
+
+    //Update #2
+    if (!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+      window.location.href = 'https://mymoph.moph.go.th'; //Desktop Browser
+    }
+  }
+</script>
