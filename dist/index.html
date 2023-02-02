@@ -159,7 +159,7 @@
   <!--===============================================================================================-->
   <script src="js/main.js"></script>
   <script type="text/javascript">
-     const protocol = window.location.protocol || 'http:';
+    const protocol = window.location.protocol || 'http:';
     var socket = io(`${protocol}//members.moph.go.th`, {
       path: "/authen/socket.io"
     });
@@ -252,9 +252,14 @@
         get: (searchParams, prop) => searchParams.get(prop),
       });
       console.log(id);
-      var url = `mymoph://authen?appId=dQwGiPuucehlbSEVXiVU&sessionId=${params.magic}&ip=${params.ip}&protocol=${params.protocol}`
+      var url =
+        `mymoph://authen?appId=dQwGiPuucehlbSEVXiVU&sessionId=${params.magic}&ip=${params.ip}&protocol=${params.protocol}`
       window.location.href = url;
-      close();
+      let new_window =
+        open(location, '_self');
+
+      // Close this window
+      new_window.close();
     }
 
     var inputU = document.getElementById("username");
