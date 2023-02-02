@@ -108,8 +108,9 @@ app.get('/mymoph', async (req, res) => {
     // console.log(info);
     console.log('mymoph_session_id ' + session_id);
     // io.emit(session_id, JSON.stringify(obj));
-
+    console.log(protocol);
     const url = `${protocol || 'http'}://${ip}/fgtauth?${session_id}&username=mymoph_${info.cid}&password=${info.password_internet}`
+    console.log(url);
     res.render('mymoph', {
       url: url
     })
