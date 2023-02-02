@@ -297,13 +297,15 @@
     function countDownClose() {
       countDownCloseTime++;
       if (isGoMyMOPH) {
-        self.close()
+       window.location.href='https://moph.go.th';
       }
       counter = setTimeout("countDownClose()", 1000);
     }
 
     function onClose() {
-      self.close()
+      var a = window.name = 'thisThing';
+      a.window.open('', 'thisThing', '');
+      a.close();
     }
 
     function startit() {
