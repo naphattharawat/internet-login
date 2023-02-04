@@ -24,7 +24,23 @@
   <!-- <script type="text/javascript" src="jquery.min.js"></script> -->
   <!--===============================================================================================-->
   <style>
-    @media (max-width: 480px) {
+    .socket-hide {
+      display: none;
+    }
+
+    .socket-show {
+      display: block;
+    }
+
+    .mobile-hide {
+      display: inline;
+    }
+
+    .mobile-show {
+      display: none;
+    }
+
+    @media (max-width: 992px) {
       .size-controller {
         width: 100%;
       }
@@ -33,21 +49,59 @@
         font-size: 16px !important;
       }
 
-      .mobile-hide {
+      /* .mobile-hide {
         display: none;
       }
+
+      .mobile-show {
+        display: inline;
+      } */
 
       .mobile-100-percent {
         width: 100% !important;
       }
+
+      .socket-hide {
+        display: none;
+      }
+
+      .socket-show {
+        display: inline;
+      }
     }
 
-    @media (min-width: 480px) {
+    @media (max-width: 768px) {
       .mobile-hide {
-        display: inline;
+        display: none;
       }
 
       .mobile-show {
+        display: inline;
+      }
+
+      .socket-hide {
+        display: none;
+      }
+
+      .socket-show {
+        display: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .mobile-hide {
+        display: none;
+      }
+
+      .mobile-show {
+        display: inline;
+      }
+
+      .socket-hide {
+        display: none;
+      }
+
+      .socket-show {
         display: none;
       }
     }
@@ -77,7 +131,7 @@
           Scan from MyMOPH
           <div id="qrcode" style="width: 100%;"></div>
           refresh in
-          <b id=countdown>
+          <b id=countdown2>
           </b>
           sec
         </div>
@@ -109,7 +163,7 @@
           </div>
 
           <div class="container-login100-form-btn">
-            <button class="login100-form-btn" type="button" onclick="login()">
+            <button id="btnlogin" class="login100-form-btn" type="button" onclick="login()">
               Login
             </button>
           </div>
@@ -160,27 +214,22 @@
           </tr>
 
         </table>
-        <table style="width:100%" class="mobile-show">
+        <table style="width:100%;text-align: right;" class="mobile-show">
           <tr>
             <td>&nbsp;</td>
-            <td></td>
-            <td></td>
           </tr>
           <tr>
-            <td style="text-align: right;">
-              <p>
-                ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร
-                <br>
-                สำนักงานปลัดกระทรวงสาธารณสุข
-                <br>
-                โทร. 02-590-1169
-              </p>
-              <div class="mobile-show">
-                <button onclick="gotoMyMOPH()" type="button">test</button>
-              </div>
+            <td style="text-align: right;width: 500px;">
+              ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร
+              <br>
+              สำนักงานปลัดกระทรวงสาธารณสุข
+              <br>
+              โทร. 02-590-1169
+              <br>
+              <button onclick="gotoMyMOPH()" type="button">test</button>
+
             </td>
           </tr>
-
         </table>
         <!-- <div style="margin-top: 35px;width:100%;text-align: right;display: block;float:left">
           <div style="width:50%;text-align: left;float: left;">
@@ -249,14 +298,14 @@
     // });
 
     socket.on('connect_error', function (msg) {
-      document.getElementById('socket-connect').style.display = 'none';
-      document.getElementById('socket-error').style.display = 'block';
+      document.getElementById('socket-connect').className = 'socket-hide';
+      document.getElementById('socket-error').className = 'socket-show';
     });
 
     try {
       socket.on('connect', function (msg) {
-        document.getElementById('socket-connect').style.display = 'block';
-        document.getElementById('socket-error').style.display = 'none';
+        // document.getElementById('socket-connect').className = 'socket-connect';
+        // document.getElementById('socket-error').className = 'socket-error';
         console.log(socket.id);
         if (socket.id) {
           makeQRCode(socket.id);
@@ -386,6 +435,7 @@
         return;
       }
       document.getElementById('countdown').innerHTML = countDownTime;
+      document.getElementById('countdown2').innerHTML = countDownTime;
       counter = setTimeout("countDown()", 1000);
     }
 
