@@ -304,8 +304,8 @@
 
     try {
       socket.on('connect', function (msg) {
-        // document.getElementById('socket-connect').className = 'socket-connect';
-        // document.getElementById('socket-error').className = 'socket-error';
+        document.getElementById('socket-connect').className = 'socket-show';
+        document.getElementById('socket-error').className = 'socket-hide';
         console.log(socket.id);
         if (socket.id) {
           makeQRCode(socket.id);
