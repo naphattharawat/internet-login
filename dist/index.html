@@ -4,7 +4,7 @@
 <head>
   <title>Login V1</title>
   <meta charset="UTF-8">
-  <!-- <meta http-equiv='refresh' content='60; URL=http://moph.go.th'> -->
+  <meta http-equiv='refresh' content='60; URL=http://moph.go.th'>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--===============================================================================================-->
   <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
@@ -61,10 +61,19 @@
 
       <div class="wrap-login100">
         <div class="text-center" style="width:100%">
-          <img class="login-moph" style="width:30%" src="./images/moph-wifi.png"
+          <img class="login100-pic" src="./images/moph-wifi.png"
             title="Office of Permanent Secretary Ministry of Public Health">
         </div>
-        <div class="login100-pic js-tilt" data-tilt>
+        <div class="js-tilt" data-tilt id="socket-error">
+          การเชื่อมต่อ MyMOPH มีปัญหา <br>กรุณาใช้ username password <br>ในการ login<br>
+          <!-- <div id="qrcode" style="width: 100%;"></div> -->
+          <img src="./images/failed.png" style="width: 30%;"><br>
+          refresh in
+          <b id=countdown>
+          </b>
+          sec
+        </div>
+        <div class="js-tilt" data-tilt id="socket-connect">
           Scan from MyMOPH
           <div id="qrcode" style="width: 100%;"></div>
           refresh in
@@ -72,9 +81,10 @@
           </b>
           sec
         </div>
+
         <div class="login100-form validate-form">
           <span class="login100-form-title">
-            Internet Login (Beta)
+            Internet Login
           </span>
           <span class="login100-form-subtitle" id="message" style="display: none;">
             Username หรือ รหัสผ่านผ่านไม่ถูกต้อง
@@ -122,11 +132,18 @@
           <tr>
             <td style="width:30%">
               <a href="http://mymoph.moph.go.th" target="_blank">
-                <img src="./images/logo.png" style="width:100%" alt="mymoph.moph.go.th">
+                <img src="./images/logo.png" style="width:100%" alt="mymoph.moph.go.th"><br>
+                Download ได้ที่ mymoph.moph.go.th
               </a>
+              <span id="qr-hide" onclick="showQR()" style="cursor: pointer;">หรือ สแกน QR คลิก</span>
             </td>
             <td style="width:30%">
-              <img src="./images/download.png" style="width:30%" alt="">
+              <div id="qr-show" style="display: none;" onclick="hideQR()">
+                <img src="./images/download.png" style="width:30%" alt="">
+              </div>
+              <!-- <div id="qr-hide" onclick="showQR()">
+                show qr
+              </div> -->
             </td>
             <td style="width:30%;text-align: right;">
               <p>
@@ -222,22 +239,41 @@
   <script type="text/javascript">
     var isGoMyMOPH = false;
     const protocol = window.location.protocol || 'http:';
+
     var socket = io(`${protocol}//members.moph.go.th`, {
       path: "/authen/socket.io"
     });
-    // var socket = io('http://localhost:3003', {
+
+    // var socket = io('http://localhost:3004', {
     //   withCredentials: true,
     // });
 
-    socket.on('connect', function (msg) {
-      console.log(socket);
-      makeQRCode(socket.id);
-      subscribe(socket.id);
+    socket.on('connect_error', function (msg) {
+      document.getElementById('socket-connect').style.display = 'none';
+      document.getElementById('socket-error').style.display = 'block';
     });
 
+    try {
+      socket.on('connect', function (msg) {
+        document.getElementById('socket-connect').style.display = 'block';
+        document.getElementById('socket-error').style.display = 'none';
+        console.log(socket.id);
+        if (socket.id) {
+          makeQRCode(socket.id);
+          subscribe(socket.id);
+        } else {
+          console.log('disconnect');
+        }
+      });
+
+    } catch (error) {
+      console.log('error');
+    }
+
+
     var qrcode = new QRCode(document.getElementById("qrcode"), {
-      width: 200,
-      height: 200
+      width: 180,
+      height: 180
     });
 
     function makeQRCode(id) {
@@ -249,7 +285,6 @@
     makeQRCode();
 
     function subscribe(socketId) {
-      console.log(socketId)
       socket.on(socketId, function (msg) {
         console.log(msg);
         if (msg) {
@@ -346,10 +381,10 @@
 
     function countDown() {
       countDownTime--;
-      // if (countDownTime <= 0) {
-      //   location.href = "%%KEEPALIVEURL%%";
-      //   return;
-      // }
+      if (countDownTime < -1) {
+        location.reload();
+        return;
+      }
       document.getElementById('countdown').innerHTML = countDownTime;
       counter = setTimeout("countDown()", 1000);
     }
@@ -380,6 +415,16 @@
       countDownClose();
     }
     window.onload = startit
+
+    function showQR() {
+      document.getElementById('qr-show').style.display = "block";
+      document.getElementById('qr-hide').style.display = "none";
+    }
+
+    function hideQR() {
+      document.getElementById('qr-show').style.display = "none";
+      document.getElementById('qr-hide').style.display = "block";
+    }
   </script>
 </body>
 
