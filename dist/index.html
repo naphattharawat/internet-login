@@ -23,6 +23,7 @@
   <link rel="stylesheet" type="text/css" href="css/main.css">
   <!-- <script type="text/javascript" src="jquery.min.js"></script> -->
   <!--===============================================================================================-->
+
   <style>
     .socket-hide {
       display: none;
@@ -166,6 +167,9 @@
             <button id="btnlogin" class="login100-form-btn" type="button" onclick="login()">
               Login
             </button>
+            <button style="margin-top: 20px;" id="btnlogin mobile-show" class="" type="button" onclick="gotoMyMOPH()">
+              Login with MyMOPH
+            </button>
           </div>
 
           <!-- <div class="text-center p-t-12">
@@ -207,9 +211,9 @@
                 <br>
                 โทร. 02-590-1169
               </p>
-              <div class="mobile-show">
+              <!-- <div class="mobile-show">
                 <button onclick="gotoMyMOPH()" type="button">test</button>
-              </div>
+              </div> -->
             </td>
           </tr>
 
@@ -226,7 +230,7 @@
               <br>
               โทร. 02-590-1169
               <br>
-              <button onclick="gotoMyMOPH()" type="button">test</button>
+              <!-- <button onclick="gotoMyMOPH()" type="button">test</button> -->
 
             </td>
           </tr>
@@ -345,6 +349,7 @@
     }
 
     function login() {
+      document.getElementById("btnlogin").disabled = true;
       const username = document.getElementById("username").value;
       const password = encodeURIComponent(document.getElementById("password").value);
       const params = new Proxy(new URLSearchParams(window.location.search), {
