@@ -167,9 +167,9 @@
             <button id="btnlogin" class="login100-form-btn" type="button" onclick="login()">
               Login
             </button>
-            <button style="margin-top: 20px;" id="btnlogin mobile-show" class="" type="button" onclick="gotoMyMOPH()">
+            <!-- <button style="margin-top: 20px;" id="btnlogin mobile-show" class="" type="button" onclick="gotoMyMOPH()">
               Login with MyMOPH
-            </button>
+            </button> -->
           </div>
 
           <!-- <div class="text-center p-t-12">
@@ -230,7 +230,7 @@
               <br>
               โทร. 02-590-1169
               <br>
-              <!-- <button onclick="gotoMyMOPH()" type="button">test</button> -->
+              <button onclick="gotoMyMOPH()" type="button">test</button>
 
             </td>
           </tr>
@@ -301,6 +301,8 @@
     //   withCredentials: true,
     // });
 
+    document.getElementById('socket-connect').className = 'socket-hide';
+    document.getElementById('socket-error').className = 'socket-hide';
     socket.on('connect_error', function (msg) {
       document.getElementById('socket-connect').className = 'socket-hide';
       document.getElementById('socket-error').className = 'socket-show';
