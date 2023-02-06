@@ -422,11 +422,12 @@
       var url =
         `mymoph://authen?appId=dQwGiPuucehlbSEVXiVU&sessionId=${params.magic}&ip=${params.ip}&protocol=${params.protocol}`
       // window.location.href = url;
-      window.AppleID.auth.init({
-        clientId: 'example.client.id',
-        redirectURI: url,
-        usePopup: true,
-      })
+      window.location.replace(url);
+      // window.AppleID.auth.init({
+      //   clientId: 'example.client.id',
+      //   redirectURI: url,
+      //   usePopup: true,
+      // })
       // let new_window =
       //   open(location, '_self');
 
