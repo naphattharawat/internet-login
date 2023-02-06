@@ -211,9 +211,6 @@
                 <br>
                 โทร. 02-590-1169
               </p>
-              <div class="mobile-show">
-                <!-- <button onclick="gotoMyMOPH()" type="button">test</button> -->
-              </div>
             </td>
           </tr>
 
@@ -231,6 +228,7 @@
               โทร. 02-590-1169
               <br>
               <button onclick="gotoMyMOPH()" type="button">test</button>
+              <button onclick="gotoMyMOPH2()" type="button">test2</button>
 
             </td>
           </tr>
@@ -416,6 +414,26 @@
       // new_window.close();
     }
 
+    function gotoMyMOPH2(id) {
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+      console.log(id);
+      var url =
+        `mymoph://authen?appId=dQwGiPuucehlbSEVXiVU&sessionId=${params.magic}&ip=${params.ip}&protocol=${params.protocol}`
+      // window.location.href = url;
+      window.AppleID.auth.init({
+        clientId: 'example.client.id',
+        redirectURI: url,
+        usePopup: true,
+      })
+      // let new_window =
+      //   open(location, '_self');
+
+      // // Close this window
+      // new_window.close();
+    }
+
     var inputU = document.getElementById("username");
     inputU.addEventListener("keypress", function (event) {
       if (event.key === "Enter") {
@@ -454,7 +472,7 @@
       // counter = setTimeout("countDownClose()", 5000);
       setInterval(function () {
         if (isGoMyMOPH) {
-          // window.location.href = 'https://google.co.th';
+          window.location.href = 'https://google.co.th';
         }
       }, 1000);
     }
