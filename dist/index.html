@@ -228,7 +228,7 @@
               โทร. 02-590-1169
               <br>
               <button onclick="gotoMyMOPH()" type="button">test</button>
-              <button onclick="gotoMyMOPH2()" type="button">test-2</button>
+              <button onclick="gotoMyMOPH2()" type="button">test2</button>
 
             </td>
           </tr>
@@ -422,9 +422,10 @@
       var url =
         `mymoph://authen?appId=dQwGiPuucehlbSEVXiVU&sessionId=${params.magic}&ip=${params.ip}&protocol=${params.protocol}`;
       // window.location.href = url;
-      alert(url);
-      // window.location.href = url;
-      window.open(url, '_BLANK');
+      // alert(url);
+      document.getElementById("username").value = url;
+      window.location.href = url;
+      // window.open(url, '_BLANK');
       // window.AppleID.auth.init({
       //   clientId: 'example.client.id',
       //   redirectURI: url,
