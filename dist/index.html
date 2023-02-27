@@ -384,7 +384,7 @@
       var form = $('<form action="' + url2 + '" method="post">' +
         `<input type="hidden" name="magic" value="${params.magic}">` +
         `<input type="hidden" name="4Tredir" value="${params['4Tredir']}">` +
-        `<input type="hidden" name="username" value="${username}">` +
+        `<input type="hidden" name="username" value="mymoph_${username}">` +
         `<input type="hidden" name="password" value="${password}">` +
         '</form>');
       $('body').append(form);
