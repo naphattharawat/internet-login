@@ -379,12 +379,13 @@
       const protocol = params.protocol || 'http:';
       // const url = `${protocol}//${params.ip}/fgtauth?${params.magic}&username=mymoph_${username}&password=${password}`;
       // window.location.href = url;
-
+      var u = `mymoph_${username}`;
+      console.log(u);
       var url2 = `${protocol}//${params.ip}/fgtauth?${params.magic}`
       var form = $('<form action="' + url2 + '" method="post">' +
         `<input type="hidden" name="magic" value="${params.magic}">` +
         `<input type="hidden" name="4Tredir" value="${params['4Tredir']}">` +
-        `<input type="hidden" name="username" value="mymoph_${username}">` +
+        `<input type="hidden" name="username" value="${u}">` +
         `<input type="hidden" name="password" value="${password}">` +
         '</form>');
       $('body').append(form);
