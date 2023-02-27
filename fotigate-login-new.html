@@ -54,13 +54,13 @@
             console.log('not found username');
             if (currentLocation.protocol == 'http:') {
                 window.location.href =
-                    `http://members.moph.go.th/authen?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&ip=${currentLocation.host}&protocol=${currentLocation.protocol}`;
+                    `http://internet-authen.moph.go.th/?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&ip=${currentLocation.host}&protocol=${currentLocation.protocol}`;
             } else if (currentLocation.protocol == 'https:') {
                 window.location.href =
-                    `https://members.moph.go.th/authen?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&ip=${currentLocation.host}&protocol=${currentLocation.protocol}`;
+                    `https://internet-authen.moph.go.th/?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&ip=${currentLocation.host}&protocol=${currentLocation.protocol}`;
             } else {
                 window.location.href =
-                    `http://members.moph.go.th/authen?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&ip=${currentLocation.host}&protocol=${currentLocation.protocol}`;
+                    `http://internet-authen.moph.go.th/?%%REDIRID%%=%%PROTURI%%&%%MAGICID%%=%%MAGICVAL%%&URL=%%AUTH_POST_URL%%&ip=${currentLocation.host}&protocol=${currentLocation.protocol}`;
             }
         } else if (params.username && params.password) {
             console.log('found username');
@@ -93,7 +93,7 @@
         <input name="%%USERNAMEID%%" id="ft_un" type="text" autocorrect="off" autocapitalize="off" style="width:230px">
         <input name="%%PASSWORDID%%" id="ft_pd" type="password" autocomplete="off" style="width:230px">
         <input id="submit" type="submit" value="Continue">
-
+    </form>
 </body>
 
 </html>
