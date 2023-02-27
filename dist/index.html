@@ -289,14 +289,14 @@
     var isGoMyMOPH = false;
     const protocol = window.location.protocol || 'http:';
 
-    // var socket = io(`${protocol}//internet-authen.moph.go.th`, {
-    //   path: "/socket.io"
-    //   // path: "/authen/socket.io"
-    // });
-
-    var socket = io('http://localhost:3004', {
-      withCredentials: true,
+    var socket = io(`${protocol}//internet-authen.moph.go.th`, {
+      path: "/socket.io"
+      // path: "/authen/socket.io"
     });
+
+    // var socket = io('http://localhost:3004', {
+    //   withCredentials: true,
+    // });
 
     abce('test');
     abcd('dGVzdA==');
