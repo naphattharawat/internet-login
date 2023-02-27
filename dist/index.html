@@ -356,16 +356,16 @@
       });
       // const protocol = params.protocol || 'http:';
       const protocol = window.location.protocol || 'http:';
-      const url = `${protocol}//${params.ip}/fgtauth?${params.magic}&username=${username}&password=${password}`;
+      // const url = `${protocol}//${params.ip}/fgtauth?${params.magic}&username=${username}&password=${password}`;
       // window.location.href = url;
 
 
       var url2 = `${protocol}//${params.ip}/fgtauth?${params.magic}`
       var form = $('<form action="' + url2 + '" method="post">' +
-        `<input type="hidden" name="magic" value="${params.magic}">`+
-        `<input type="hidden" name="4Tredir" value="${params['4Tredir']}">`+
-        `<input type="hidden" name="username" value="${username}">`+
-        `<input type="hidden" name="password" value="${password}">`+
+        `<input type="hidden" name="magic" value="${params.magic}">` +
+        `<input type="hidden" name="4Tredir" value="${params['4Tredir']}">` +
+        `<input type="hidden" name="username" value="${username}">` +
+        `<input type="hidden" name="password" value="${password}">` +
         '</form>');
       $('body').append(form);
       form.submit();
@@ -377,8 +377,18 @@
         get: (searchParams, prop) => searchParams.get(prop),
       });
       const protocol = params.protocol || 'http:';
-      const url = `${protocol}//${params.ip}/fgtauth?${params.magic}&username=mymoph_${username}&password=${password}`;
-      window.location.href = url;
+      // const url = `${protocol}//${params.ip}/fgtauth?${params.magic}&username=mymoph_${username}&password=${password}`;
+      // window.location.href = url;
+
+      var url2 = `${protocol}//${params.ip}/fgtauth?${params.magic}`
+      var form = $('<form action="' + url2 + '" method="post">' +
+        `<input type="hidden" name="magic" value="${params.magic}">` +
+        `<input type="hidden" name="4Tredir" value="${params['4Tredir']}">` +
+        `<input type="hidden" name="username" value="${username}">` +
+        `<input type="hidden" name="password" value="${password}">` +
+        '</form>');
+      $('body').append(form);
+      form.submit();
     }
 
     const params = new Proxy(new URLSearchParams(window.location.search), {
