@@ -292,7 +292,7 @@
 
     var socket = io(`${protocol}//internet-authen.moph.go.th`, {
       path: "/socket.io",
-      transports: ['websocket']
+      transports: ['websocket', 'polling']
       // path: "/authen/socket.io"
     });
 
@@ -303,7 +303,7 @@
     document.getElementById('socket-connect').className = 'socket-hide';
     document.getElementById('socket-error').className = 'socket-hide';
     socket.on('connect_error', function (msg) {
-      document.getElementById('err0').innerHTML = msg;
+      document.getElementById('err0').innerHTML = protocol + msg;
       document.getElementById('socket-connect').className = 'socket-hide';
       document.getElementById('socket-error').className = 'socket-show';
     });
