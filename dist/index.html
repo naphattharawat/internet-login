@@ -120,6 +120,8 @@
         </div>
         <div class="js-tilt" data-tilt id="socket-error">
           การเชื่อมต่อ MyMOPH มีปัญหา <br>กรุณาใช้ username password <br>ในการ login<br>
+          <div id="err0"></div>
+          <a href="http://internet-authen.moph.go.th/2">t</a>
           <!-- <div id="qrcode" style="width: 100%;"></div> -->
           <img src="./images/failed.png" style="width: 30%;"><br>
           refresh in
@@ -301,6 +303,7 @@
     document.getElementById('socket-connect').className = 'socket-hide';
     document.getElementById('socket-error').className = 'socket-hide';
     socket.on('connect_error', function (msg) {
+      document.getElementById('err0').innerHTML = msg;
       document.getElementById('socket-connect').className = 'socket-hide';
       document.getElementById('socket-error').className = 'socket-show';
     });
