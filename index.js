@@ -11,7 +11,14 @@ app.use(cors())
 app.set('view engine', 'ejs');
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
-const io = new Server(server, { secure: true });
+const io = new Server(server, {
+  secure: true,
+  cors: {
+    origin: "internet-authen.moph.go.th",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
 // const io = new Server(server,
 //   {
 //     cors: {
