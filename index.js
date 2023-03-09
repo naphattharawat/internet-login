@@ -43,9 +43,9 @@ app.get('/download', (req, res) => {
   res.sendFile(path.join(__dirname, './download.html'));
 
 });
-app.get('/3', (req, res) => {
-  // app.use(express.static(path.join(__dirname, 'dist')));
-  res.sendFile(path.join(__dirname, './fotigate-login-new.html'));
+app.get('/2', (req, res) => {
+  app.use(express.static(path.join(__dirname, 'dist')));
+  res.sendFile(path.join(__dirname, './dist/index2.html'));
 
 });
 app.get('/4', (req, res) => {
