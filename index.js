@@ -20,6 +20,10 @@ const io = new Server(server, { secure: true });
 //     }
 //   });
 
+io.on("connect_error", (err) => {
+  console.log(`connect_error due to ${err.message}`);
+});
+
 io.on('connection', (socket) => {
   console.log(socket.id);
   // console.log(socket.handshake.headers.host);
