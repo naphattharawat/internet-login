@@ -289,8 +289,8 @@
     const protocol = window.location.protocol || 'http:';
 
     var socket = io(`${protocol}//internet-authen.moph.go.th`, {
-      path: "/socket.io",
-      // path: "/authen/socket.io",
+      // path: "/socket.io",
+      path: "/wss/socket.io",
       transports: ['websocket']
     });
 
