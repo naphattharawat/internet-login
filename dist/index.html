@@ -435,24 +435,19 @@
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      console.log(id);
-      var url =
+      const protocol = params.protocol || 'http:';
+      var u = `mymoph_${username}`;
+      console.log(u);
+      var url2 =
         `mymoph://authen?appId=dQwGiPuucehlbSEVXiVU&sessionId=${params.magic}&ip=${params.ip}&protocol=${params.protocol}`;
-      // window.location.href = url;
-      // alert(url);
-      document.getElementById("username").value = url;
-      window.location.href = url;
-      // window.open(url, '_BLANK');
-      // window.AppleID.auth.init({
-      //   clientId: 'example.client.id',
-      //   redirectURI: url,
-      //   usePopup: true,
-      // })
-      // let new_window =
-      //   open(location, '_self');
-
-      // // Close this window
-      // new_window.close();
+      var form = $('<form action="' + url2 + '" method="post">' +
+        `<input type="hidden" name="magic" value="${params.magic}">` +
+        `<input type="hidden" name="4Tredir" value="${params['4Tredir']}">` +
+        `<input type="hidden" name="username" value="${u}">` +
+        `<input type="hidden" name="password" value="${password}">` +
+        '</form>');
+      $('body').append(form);
+      form.submit();
     }
 
     var inputU = document.getElementById("username");
