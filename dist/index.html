@@ -242,7 +242,7 @@
               
               <button onclick="gotoMyMOPH()" type="button">test</button>
               <button onclick="gotoMyMOPH2()" type="button">test2</button>
-
+              
             </td>
           </tr>
         </table>
@@ -426,16 +426,18 @@
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      console.log(id);
+      // console.log(id);
       var url =
         `mymoph://authen?appId=dQwGiPuucehlbSEVXiVU&sessionId=${params.magic}&ip=${params.ip}&protocol=${params.protocol}`;
-      window.location.href = url;
-      isGoMyMOPH = true;
-      // let new_window =
-      //   open(location, '_self');
+      // window.location.href = url;
+      // isGoMyMOPH = true;
+      // // let new_window =
+      // //   open(location, '_self');
 
-      // // Close this window
-      // new_window.close();
+      // // // Close this window
+      // // new_window.close();
+      open(url, '_blank');
+
     }
 
     function gotoMyMOPH2(id) {
