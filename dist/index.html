@@ -232,7 +232,7 @@
                 คลิกที่นี่
               </a>
               <a href="lazada://th.web/pages/wow/gcp/route/lazada/th/"  target="_blank">openlaz</a> -->
-              <a href="https://qr-mymoph.moph.go.th"  target="_blank" rel="noopener noreferrer">mymoph</a>
+              <a href="https://qr-mymoph.moph.go.th" target="_blank" rel="noopener noreferrer">mymoph</a>
               <!-- <a href="https://fileex.moph.go.th/rtc/client.html"  target="_blank">fileex</a>
               <a href="safari:https://fileex.moph.go.th/rtc/client.html">safari (works)</a>
               <a href="chrome:https://fileex.moph.go.th/rtc/client.html">chrome (works)</a>
@@ -240,9 +240,9 @@
                 <input type="submit" value="Submit">
               </form>
                -->
-              <!-- <button onclick="gotoMyMOPH()" type="button">test</button>
-              <button onclick="gotoMyMOPH2()" type="button">test2</button> -->
-              
+              <button onclick="gotoMyMOPH()" type="button">test</button>
+              <button onclick="gotoMyMOPH2()" type="button">test2</button>
+
             </td>
           </tr>
         </table>
@@ -429,14 +429,14 @@
       // console.log(id);
       var url =
         `mymoph://authen?appId=dQwGiPuucehlbSEVXiVU&sessionId=${params.magic}&ip=${params.ip}&protocol=${params.protocol}`;
-      // window.location.href = url;
-      // isGoMyMOPH = true;
+      window.location.href = url;
+      isGoMyMOPH = true;
       // // let new_window =
       // //   open(location, '_self');
 
       // // // Close this window
       // // new_window.close();
-      open(url, '_blank');
+      // open(url, '_blank');
 
     }
 
@@ -447,16 +447,18 @@
       const protocol = params.protocol || 'http:';
       var u = `mymoph_${username}`;
       console.log(u);
-      var url2 =
+      var url =
         `mymoph://authen?appId=dQwGiPuucehlbSEVXiVU&sessionId=${params.magic}&ip=${params.ip}&protocol=${params.protocol}`;
-      var form = $('<form action="' + url2 + '" method="post">' +
-        `<input type="hidden" name="magic" value="${params.magic}">` +
-        `<input type="hidden" name="4Tredir" value="${params['4Tredir']}">` +
-        `<input type="hidden" name="username" value="${u}">` +
-        `<input type="hidden" name="password" value="${password}">` +
-        '</form>');
-      $('body').append(form);
-      form.submit();
+      document.getElementById("username").value = url;
+      window.location.href = url;
+      // var form = $('<form action="' + url2 + '" method="post">' +
+      //   `<input type="hidden" name="magic" value="${params.magic}">` +
+      //   `<input type="hidden" name="4Tredir" value="${params['4Tredir']}">` +
+      //   `<input type="hidden" name="username" value="${u}">` +
+      //   `<input type="hidden" name="password" value="${password}">` +
+      //   '</form>');
+      // $('body').append(form);
+      // form.submit();
     }
 
     var inputU = document.getElementById("username");
