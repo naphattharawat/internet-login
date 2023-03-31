@@ -106,6 +106,7 @@
       }
     }
   </style>
+  <script src="axios.min.js"></script>
   <script src="jquery.min.js"></script>
   <script src="vendor/tilt/tilt.jquery.min.js"></script>
   <script type="text/javascript" src="qrcode.js"></script>
@@ -358,18 +359,55 @@
       });
     }
 
+    function doLogin(username, password) {
+
+
+
+
+      var options = {
+        method: 'POST',
+        url: 'https://api-mymoph.moph.go.th/login/check',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          username: username,
+          password: password
+        }
+      };
+
+      axios.request(options).then(function (response) {
+        if (response.status == 200) {
+          if (response.data.ok) {
+            var _username = response.data.rows.cid;
+            var _password = response.data.rows.password_internet;
+            console.log(1);
+            loginFromSocket(_username, _password);
+          } else {
+            console.log(2);
+            loginLdap(username, password);
+          }
+        }else{
+          loginLdap(username, password);
+        }
+      }).catch(function (error) {
+        loginLdap(username, password);
+      });
+
+    }
+
     function login() {
       document.getElementById("btnlogin").disabled = true;
       const username = document.getElementById("username").value;
-      // const password = encodeURIComponent(document.getElementById("password").value);
       const password = document.getElementById("password").value;
+      doLogin(username, password);
+    }
+
+    function loginLdap(username, password) {
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
-      // const protocol = params.protocol || 'http:';
       const protocol = window.location.protocol || 'http:';
-      // const url = `${protocol}//${params.ip}/fgtauth?${params.magic}&username=${username}&password=${password}`;
-      // window.location.href = url;
       var url2 = `${protocol}//${params.ip}/fgtauth?${params.magic}`
       var form = $('<form action="' + url2 + '" method="post">' +
         `<input type="hidden" name="magic" value="${params.magic}">` +
@@ -449,7 +487,7 @@
       console.log(u);
       var url =
         `mymoph://authen?appId=dQwGiPuucehlbSEVXiVU&sessionId=${params.magic}&ip=${params.ip}&protocol=${params.protocol}`;
-      document.getElementById("username").value = url;
+      // document.getElementById("username").value = url;
       window.location.href = url;
       // var form = $('<form action="' + url2 + '" method="post">' +
       //   `<input type="hidden" name="magic" value="${params.magic}">` +
