@@ -83,7 +83,7 @@ function requestToken(code) {
     const data = {
       grant_type: 'authorization_code',
       code: code,
-      redirect_uri: encodeURI('https://internet-authen.moph.go.th/callback')
+      redirect_uri: 'https://internet-authen.moph.go.th/callback'
     }
     const options = {
       method: 'POST',
