@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const io = new Server(server, {
   secure: true,
   cors: {
-    origin: "localhost:3000",
+    origin: "localhost:4200",
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -37,6 +37,6 @@ app.get('/', (req, res) => {
 });
 
 
-server.listen(3004, () => {
-  console.log('listening on *:3004');
+server.listen(8443, () => {
+  console.log('listening on *:8443');
 });

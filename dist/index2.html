@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Login V1</title>
+  <meta charset="UTF-8">
+  <meta http-equiv='refresh' content='180; URL=http://moph.go.th'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--===============================================================================================-->
+  <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+  <!--===============================================================================================-->
+  <!-- <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"> -->
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+  <!--===============================================================================================-->
+  <!-- <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css"> -->
+  <!--===============================================================================================-->
+  <!-- <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css"> -->
+  <!--===============================================================================================-->
+  <!-- <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css"> -->
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="css/util.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <!--===============================================================================================-->
+
+  <style>
+    .socket-hide {
+      display: none;
+    }
+
+    .socket-show {
+      display: block;
+    }
+
+    .mobile-hide {
+      display: inline;
+    }
+
+    .mobile-show {
+      display: none;
+    }
+
+    @media (max-width: 992px) {
+      .size-controller {
+        width: 100%;
+      }
+
+      .mobile-16px-font {
+        font-size: 16px !important;
+      }
+
+      /* .mobile-hide {
+        display: none;
+      }
+
+      .mobile-show {
+        display: inline;
+      } */
+
+      .mobile-100-percent {
+        width: 100% !important;
+      }
+
+      .socket-hide {
+        display: none;
+      }
+
+      .socket-show {
+        display: inline;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-hide {
+        display: none;
+      }
+
+      .mobile-show {
+        display: inline;
+      }
+
+      .socket-hide {
+        display: none;
+      }
+
+      .socket-show {
+        display: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .mobile-hide {
+        display: none;
+      }
+
+      .mobile-show {
+        display: inline;
+      }
+
+      .socket-hide {
+        display: none;
+      }
+
+      .socket-show {
+        display: none;
+      }
+    }
+  </style>
+  <script src="axios.min.js"></script>
+  <script src="jquery.min.js"></script>
+  <script src="vendor/tilt/tilt.jquery.min.js"></script>
+  <script type="text/javascript" src="qrcode.js"></script>
+  <script type="text/javascript" src="socket.io.js"></script>
+</head>
+
+<body>
+
+  <div class="limiter">
+    <div class="container-login100">
+
+      <div class="wrap-login100">
+        <div class="text-center" style="width:100%">
+          <img class="login100-pic" src="./images/moph-wifi.png"
+            title="Office of Permanent Secretary Ministry of Public Health">
+        </div>
+        <div class="js-tilt" data-tilt id="socket-error">
+          การเชื่อมต่อ MyMOPH มีปัญหา <br>กรุณาใช้ username password <br>ในการ login<br>
+          <!-- <div id="qrcode" style="width: 100%;"></div> -->
+          <img src="./images/failed.png" style="width: 30%;"><br>
+          refresh in
+          <b id=countdown>
+          </b>
+          sec
+        </div>
+        <div class="js-tilt" data-tilt id="socket-connect">
+          Scan from MyMOPH
+          <div id="qrcode" style="width: 100%;"></div>
+          refresh in
+          <b id=countdown2>
+          </b>
+          sec
+        </div>
+
+        <div class="login100-form validate-form">
+          <span class="login100-form-title">
+            Internet Login
+          </span>
+          <span class="login100-form-subtitle" id="message" style="display: none;">
+            Username หรือ รหัสผ่านผ่านไม่ถูกต้อง
+          </span>
+
+          <div class="wrap-input100 validate-input">
+            <input class="input100" id="username" type="text" name="username" placeholder="Username">
+            <span class="focus-input100"></span>
+            <span class="symbol-input100">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+            </span>
+          </div>
+
+          <!-- <div class="wrap-input100 validate-input"> -->
+          <!-- <div class="wrap-input100 validate-input" data-validate="Password is required"> -->
+          <div class="wrap-input100">
+            <input class="input100" id="password" type="password" name="password" placeholder="Password">
+            <span class="focus-input100"></span>
+            <span class="symbol-input100">
+              <i class="fa fa-lock" aria-hidden="true"></i>
+            </span>
+          </div>
+
+          <div class="container-login100-form-btn">
+            <button id="btnlogin" class="login100-form-btn" type="button" onclick="login()">
+              Login
+            </button>
+
+            <button id="btnlogin" class="btn-app" type="button" onclick="goToThaiD()">
+              <img src="/images/ThaID.png" alt="" height="30"> &nbsp; ThaID
+            </button>
+
+            <!-- <button style="margin-top: 20px;" id="btnlogin mobile-show" class="" type="button" onclick="gotoMyMOPH()">
+              Login with MyMOPH
+            </button> -->
+          </div>
+
+          <!-- <div class="text-center p-t-12">
+            <span class="txt1">
+              Forgot
+            </span>
+            <a class="txt2" href="#">
+              Username / Password?
+            </a>
+          </div> -->
+        </div>
+        <table style="width:100%" class="mobile-hide">
+          <!-- <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+          </tr> -->
+          <tr>
+            <td style="width:40%">
+              <a href="http://mymoph.moph.go.th" target="_blank">
+                <img src="./images/logo.png" style="width:100%" alt="mymoph.moph.go.th"><br>
+                <!-- Download ได้ที่ mymoph.moph.go.th -->
+              </a>
+              <!-- <span id="qr-hide" onclick="showQR()" style="cursor: pointer;">หรือ สแกน QR คลิก</span> -->
+            </td>
+            <td style="width:20%">
+              <div id="qr-show" style="display: none;" onclick="hideQR()">
+                <img src="./images/download.png" style="width:30%" alt="">
+              </div>
+              <!-- <div id="qr-hide" onclick="showQR()">
+                show qr
+              </div> -->
+            </td>
+            <td style="width:40%;text-align: right;">
+              <p>
+                ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร
+                <br>
+                โทร. 02-590-1169
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <table style="width:100%;text-align: right;" class="mobile-show">
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td style="text-align: right;width: 500px;">
+              ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร
+              <br>
+              สำนักงานปลัดกระทรวงสาธารณสุข
+              <br>
+              โทร. 02-590-1169
+              <br>
+              <!-- <a href="http://ops.moph.go.th/" target="_blank">
+                คลิกที่นี่
+              </a>
+              <a href="lazada://th.web/pages/wow/gcp/route/lazada/th/"  target="_blank">openlaz</a> -->
+              <a href="https://qr-mymoph.moph.go.th" target="_blank" rel="noopener noreferrer">mymoph</a>
+              <!-- <a href="https://fileex.moph.go.th/rtc/client.html"  target="_blank">fileex</a>
+              <a href="safari:https://fileex.moph.go.th/rtc/client.html">safari (works)</a>
+              <a href="chrome:https://fileex.moph.go.th/rtc/client.html">chrome (works)</a>
+              <form action="https://fileex.moph.go.th/rtc/client.html" method="get">
+                <input type="submit" value="Submit">
+              </form>
+               -->
+              <button onclick="gotoMyMOPH()" type="button">test</button>
+              <button onclick="gotoMyMOPH2()" type="button">test2</button>
+
+            </td>
+          </tr>
+        </table>
+        <!-- <div style="margin-top: 35px;width:100%;text-align: right;display: block;float:left">
+          <div style="width:50%;text-align: left;float: left;">
+            <img src="./images/Mobile_App_httpsappsapplecomthapp12630lth.png" style="width:30%" alt=""><br>
+            <img src="./images/logo.png" style="width:50%" alt="mymoph.moph.go.th">
+
+
+          </div>
+          <div style="width:50%;font-family: Helvetica, Tahoma, sans-serif;text-align: right;float:left">
+            <div style="float: left;">
+              <p>
+                ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร
+                <br>
+                สำนักงานปลัดกระทรวงสาธารณสุข
+                <br>
+                โทร. 02-590-1169
+              </p>
+            </div>
+              <div style="float:left">
+            <img src="./images/icon-ict-moph.png" title=""></div>
+        </div>
+            <div class="mobile-show">
+              <button onclick="gotoMyMOPH()" type="button">test</button>
+
+            </div>
+          </div> -->
+        <!-- <div style="float:left">
+            <img src="./images/icon-ict-moph.png" title=""></div>
+        </div> -->
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!--===============================================================================================-->
+  <!--===============================================================================================-->
+  <!-- <script src="vendor/bootstrap/js/popper.js"></script> -->
+  <!-- <script src="vendor/bootstrap/js/bootstrap.min.js"></script> -->
+  <!--===============================================================================================-->
+  <!-- <script src="vendor/select2/select2.min.js"></script> -->
+  <!--===============================================================================================-->
+  <script>
+    $('.js-tilt').tilt({
+      scale: 1.1
+    })
+  </script>
+  <!--===============================================================================================-->
+  <!-- <script src="js/main.js"></script> -->
+  <script type="text/javascript">
+    var isGoMyMOPH = false;
+    const protocol = window.location.protocol || 'http:';
+
+    var socket = io(`${protocol}//internet-authen.moph.go.th`, {
+      path: "/socket.io",
+      // transports: ['websocket']
+    });
+
+    // var socket = io('http://localhost:3004', {
+    //   withCredentials: true,
+    // });
+
+    document.getElementById('socket-connect').className = 'socket-hide';
+    document.getElementById('socket-error').className = 'socket-hide';
+    socket.on('connect_error', function (msg) {
+      document.getElementById('socket-connect').className = 'socket-hide';
+      document.getElementById('socket-error').className = 'socket-show';
+    });
+
+    try {
+      socket.on('connect', function (msg) {
+        document.getElementById('socket-connect').className = 'socket-show';
+        document.getElementById('socket-error').className = 'socket-hide';
+        console.log(socket.id);
+        if (socket.id) {
+          makeQRCode(socket.id);
+          subscribe(socket.id);
+        } else {
+          console.log('disconnect');
+        }
+      });
+
+    } catch (error) {
+      console.log('error');
+    }
+
+
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+      width: 180,
+      height: 180
+    });
+
+    function makeQRCode(id) {
+      console.log(id);
+      var url = `mymoph://qr?clientId=dQwGiPuucehlbSEVXiVU&sessionId=${id}`
+      qrcode.makeCode(url);
+    }
+
+    makeQRCode();
+
+    function subscribe(socketId) {
+      socket.on(socketId, function (msg) {
+        console.log(msg);
+        if (msg) {
+          const json = JSON.parse(msg);
+          loginFromSocket(json.username, json.password);
+        }
+        console.log(msg);
+      });
+    }
+
+    function doLogin(username, password) {
+
+
+
+
+      var options = {
+        method: 'POST',
+        url: 'https://api-mymoph.moph.go.th/login/check',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          username: username,
+          password: password
+        }
+      };
+
+      axios.request(options).then(function (response) {
+        if (response.status == 200) {
+          if (response.data.ok) {
+            var _username = response.data.rows.cid;
+            var _password = response.data.rows.password_internet;
+            console.log(1);
+            loginFromSocket(_username, _password);
+          } else {
+            console.log(2);
+            loginLdap(username, password);
+          }
+        } else {
+          loginLdap(username, password);
+        }
+      }).catch(function (error) {
+        loginLdap(username, password);
+      });
+
+    }
+
+    function login() {
+      document.getElementById("btnlogin").disabled = true;
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      doLogin(username, password);
+    }
+
+    function goToThaiD() {
+      var state = Math.floor(Math.random() * 900000000000) + 100000000000;
+      location.href =
+        `https://imauth.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=&redirect_uri=https://internet-authen.moph.go.th/callback&scope=openid pid given_name middle_name family_name birthdate address gender&state=${state}`;
+      //  location.href = `https://imauth.bora.dopa.go.th/api/v2/oauth2/auth?response_type=code&client_id=M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=&redirect_uri=https://internet-authen.moph.go.th/callback&scope=pid%20given_name%20middle_name%20family_name%20birthdate%20address%20gender%20openid&state=`;
+    }
+
+    function loginLdap(username, password) {
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+      const protocol = window.location.protocol || 'http:';
+      var url2 = `${protocol}//${params.ip}/fgtauth?${params.magic}`
+      var form = $('<form action="' + url2 + '" method="post">' +
+        `<input type="hidden" name="magic" value="${params.magic}">` +
+        `<input type="hidden" name="4Tredir" value="${params['4Tredir']}">` +
+        `<input type="hidden" name="username" value="${username}">` +
+        `<input type="hidden" name="password" value="${password}">` +
+        '</form>');
+      $('body').append(form);
+      form.submit();
+    }
+    // http://10.10.1.1:1000/fgtauth?000e0e9c9416a1f0
+
+    function loginFromSocket(username, password) {
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+      const protocol = params.protocol || 'http:';
+      // const url = `${protocol}//${params.ip}/fgtauth?${params.magic}&username=mymoph_${username}&password=${password}`;
+      // window.location.href = url;
+      var u = `mymoph_${username}`;
+      console.log(u);
+      var url2 = `${protocol}//${params.ip}/fgtauth?${params.magic}`
+      var form = $('<form action="' + url2 + '" method="post">' +
+        `<input type="hidden" name="magic" value="${params.magic}">` +
+        `<input type="hidden" name="4Tredir" value="${params['4Tredir']}">` +
+        `<input type="hidden" name="username" value="${u}">` +
+        `<input type="hidden" name="password" value="${password}">` +
+        '</form>');
+      $('body').append(form);
+      form.submit();
+    }
+
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+    if (params.status) {
+      if (params.status == 'FAILED') {
+        console.log('failed');
+        var x = document.getElementById("message");
+        x.style.display = "block";
+      }
+    }
+
+    if (params.magic) {
+      const magicS = sessionStorage.getItem("magic");
+      if (params.magic == magicS) {
+        window.location.href = 'http://ict.moph.go.th';
+      } else {
+        const magicS = sessionStorage.setItem("magic", params.magic);
+      }
+    }
+
+    function gotoMyMOPH(id) {
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+      // console.log(id);
+      var url =
+        `mymoph://authen?appId=dQwGiPuucehlbSEVXiVU&sessionId=${params.magic}&ip=${params.ip}&protocol=${params.protocol}`;
+      window.location.href = url;
+      isGoMyMOPH = true;
+      // // let new_window =
+      // //   open(location, '_self');
+
+      // // // Close this window
+      // // new_window.close();
+      // open(url, '_blank');
+
+    }
+
+    function gotoMyMOPH2(id) {
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+      const protocol = params.protocol || 'http:';
+      var u = `mymoph_${username}`;
+      console.log(u);
+      var url =
+        `mymoph://authen?appId=dQwGiPuucehlbSEVXiVU&sessionId=${params.magic}&ip=${params.ip}&protocol=${params.protocol}`;
+      // document.getElementById("username").value = url;
+      window.location.href = url;
+      // var form = $('<form action="' + url2 + '" method="post">' +
+      //   `<input type="hidden" name="magic" value="${params.magic}">` +
+      //   `<input type="hidden" name="4Tredir" value="${params['4Tredir']}">` +
+      //   `<input type="hidden" name="username" value="${u}">` +
+      //   `<input type="hidden" name="password" value="${password}">` +
+      //   '</form>');
+      // $('body').append(form);
+      // form.submit();
+    }
+
+    var inputU = document.getElementById("username");
+    inputU.addEventListener("keypress", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        login();
+      }
+    });
+    var inputP = document.getElementById("password");
+    inputP.addEventListener("keypress", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        login();
+      }
+    });
+
+
+    var countDownTime = 180;
+    var countDownCloseTime = 0;
+
+    function countDown() {
+      countDownTime--;
+      if (countDownTime < -1) {
+        location.reload();
+        return;
+      }
+      document.getElementById('countdown').innerHTML = countDownTime;
+      document.getElementById('countdown2').innerHTML = countDownTime;
+      counter = setTimeout("countDown()", 1000);
+    }
+
+    function countDownClose() {
+      // countDownCloseTime++;
+      // if (isGoMyMOPH) {
+      //  window.location.href='https://moph.go.th';
+      // }
+      // counter = setTimeout("countDownClose()", 5000);
+      setInterval(function () {
+        if (isGoMyMOPH) {
+          window.location.href = 'https://google.co.th';
+        }
+      }, 1000);
+    }
+
+
+
+    function onClose() {
+      var a = window.name = 'thisThing';
+      a.window.open('', 'thisThing', '');
+      a.close();
+    }
+
+    function startit() {
+      countDown();
+      countDownClose();
+    }
+    window.onload = startit
+
+    function showQR() {
+      document.getElementById('qr-show').style.display = "block";
+      document.getElementById('qr-hide').style.display = "none";
+    }
+
+    function hideQR() {
+      document.getElementById('qr-show').style.display = "none";
+      document.getElementById('qr-hide').style.display = "block";
+    }
+  </script>
+</body>
+
+</html>

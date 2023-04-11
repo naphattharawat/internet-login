@@ -47,33 +47,62 @@ io.on('connection', (socket) => {
 app.get('/', (req, res) => {
   app.use(express.static(path.join(__dirname, 'dist')));
   res.sendFile(path.join(__dirname, './dist/index.html'));
-
 });
-// app.get('/download', (req, res) => {
-//   // app.use(express.static(path.join(__dirname, 'dist')));
-//   res.sendFile(path.join(__dirname, './download.html'));
 
-// });
-// app.get('/2', (req, res) => {
-//   app.use(express.static(path.join(__dirname, 'dist')));
-//   res.sendFile(path.join(__dirname, './dist/index2.html'));
+app.get('/2', (req, res) => {
+  app.use(express.static(path.join(__dirname, 'dist')));
+  res.sendFile(path.join(__dirname, './dist/index2.html'));
+});
 
-// });
-// app.get('/4', (req, res) => {
-//   // app.use(express.static(path.join(__dirname, 'dist')));
-//   res.render('test', {
-//     topic: 'abc'
-//   })
+app.get('/callback', async (req, res) => {
+  // {
+  //   "code": "YzgyMmQzNzQtOWVhNi00OGYzLWI2MTktZGQ2YjA4MmQxYzg5IzFlYjAyZmYyLTJiM2UtNDUxMy05MzczLTgzOWI0ZDVjYmIwMA==",
+  //   "state": "105500950081"
+  //   }
+  try {
+    const code = req.query.code;
+    // const state = req.query.state;
+    if (code) {
+      const res = await requestToken(code);
+      res.send(res);
+    } else {
+      res.send(req.query);
+    }
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+});
 
-// });
 
-// app.get('/test/:id', (req, res) => {
-//   const id = req.params.id;
-//   io.emit(id, 'test');
-//   res.send({ ok: true });
+function requestToken(code) {
+  // ใช้ค่า “Basic”+Base64({{client_id}}:{{client_secret}})
+  const authorization = Buffer.from(`M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=:THpwQUcya1BUbjNISVpiNVJLdDd2OHFpT3lIU1BsWjdqbWx4U3lMQg==`).toString('base64');
+  const data = {
+    grant_type: 'authorization_code',
+    code: code,
+    redirect_uri: 'http://localhost:3004/callback'
+  }
+  const options = {
+    method: 'POST',
+    url: 'https://imauth.bora.dopa.go.th/api/v2/oauth2/token/',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded',
+      'Authorization': `Basic ${authorization}`,
+      'Content-Length': Buffer.byteLength(JSON.stringify(data))
+    },
+    data: data
+  };
+  return new Promise((resolve, reject) => {
+    axios(options).then(function (response) {
+      resolve({ statusCode: response.status, body: response.data });
+    }).catch(function (error) {
+      // console.log(error);
+      reject({ statusCode: error.response.status, error: error.response.data });
+    });
+  })
 
-// });
-
+}
 function getUsername(token) {
   const options = {
     method: 'GET',
