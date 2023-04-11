@@ -59,12 +59,12 @@ app.get('/callback', async (req, res) => {
     const code = req.query.code;
     // const state = req.query.state;
     if (code) {
-      const res = await requestToken(code);
-      console.log(res);
-      if (res.statusCode == 200) {
-        res.send(res.body);
+      const rs = await requestToken(code);
+      console.log(rs);
+      if (rs.statusCode == 200) {
+        res.send(rs.body);
       } else {
-        res.send(res.body);
+        res.send(rs.body);
       }
     } else {
       res.send(req.query);
