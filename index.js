@@ -90,8 +90,8 @@ function requestToken(code) {
       url: 'https://imauth.bora.dopa.go.th/api/v2/oauth2/token/',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `Basic ${authorization}`,
-        'Content-Length': Buffer.byteLength(JSON.stringify(data))
+        'Authorization': `Basic ${authorization}`
+        // 'Content-Length': Buffer.byteLength(JSON.stringify(data))
       },
       data: data
     };
