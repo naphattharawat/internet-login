@@ -60,6 +60,7 @@ app.get('/callback', async (req, res) => {
     // const state = req.query.state;
     if (code) {
       const res = await requestToken(code);
+      console.log(res);
       res.send(res);
     } else {
       res.send(req.query);
