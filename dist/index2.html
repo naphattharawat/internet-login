@@ -412,7 +412,7 @@
       var state = Math.floor(Math.random() * 900000000000) + 100000000000;
       var url = encodeURIComponent('https://internet-authen.moph.go.th/callback/');
       location.href =
-        `https://imauth.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=&redirect_uri=${url}&scope=pid given_name middle_name family_name birthdate&state=${state}`;
+        `https://imauth.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=&redirect_uri=${url}&scope=pid given_name middle_name family_name birthdate address gender&state=${state}`;
         // `https://imauth.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=&redirect_uri=${url}&scope=openid pid given_name middle_name family_name birthdate address gender&state=${state}`;
     }
 
