@@ -76,31 +76,36 @@ app.get('/callback', async (req, res) => {
 
 
 function requestToken(code) {
-  // ใช้ค่า “Basic”+Base64({{client_id}}:{{client_secret}})
-  const authorization = Buffer.from(`M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=:THpwQUcya1BUbjNISVpiNVJLdDd2OHFpT3lIU1BsWjdqbWx4U3lMQg==`).toString('base64');
-  const data = {
-    grant_type: 'authorization_code',
-    code: code,
-    redirect_uri: encodeURIComponent('https://internet-authen.moph.go.th/callback')
+  try {
+
+    // ใช้ค่า “Basic”+Base64({{client_id}}:{{client_secret}})
+    const authorization = Buffer.from(`M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=:THpwQUcya1BUbjNISVpiNVJLdDd2OHFpT3lIU1BsWjdqbWx4U3lMQg==`).toString('base64');
+    const data = {
+      grant_type: 'authorization_code',
+      code: code,
+      redirect_uri: encodeURI('https://internet-authen.moph.go.th/callback')
+    }
+    const options = {
+      method: 'POST',
+      url: 'https://imauth.bora.dopa.go.th/api/v2/oauth2/token/',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+        'Authorization': `Basic ${authorization}`,
+        'Content-Length': Buffer.byteLength(JSON.stringify(data))
+      },
+      data: data
+    };
+    return new Promise((resolve, reject) => {
+      axios(options).then(function (response) {
+        resolve({ statusCode: response.status, body: response.data });
+      }).catch(function (error) {
+        // console.log(error);
+        reject({ statusCode: error.response.status, error: error.response.data });
+      });
+    })
+  } catch (error) {
+    return error;
   }
-  const options = {
-    method: 'POST',
-    url: 'https://imauth.bora.dopa.go.th/api/v2/oauth2/token/',
-    headers: {
-      'Content-type': 'application/x-www-form-urlencoded',
-      'Authorization': `Basic ${authorization}`,
-      'Content-Length': Buffer.byteLength(JSON.stringify(data))
-    },
-    data: data
-  };
-  return new Promise((resolve, reject) => {
-    axios(options).then(function (response) {
-      resolve({ statusCode: response.status, body: response.data });
-    }).catch(function (error) {
-      // console.log(error);
-      reject({ statusCode: error.response.status, error: error.response.data });
-    });
-  })
 
 }
 function getUsername(token) {
