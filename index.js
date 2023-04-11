@@ -61,7 +61,11 @@ app.get('/callback', async (req, res) => {
     if (code) {
       const res = await requestToken(code);
       console.log(res);
-      res.send(res);
+      if (res.statusCode == 200) {
+        res.send(res.body);
+      } else {
+        res.send(res.body);
+      }
     } else {
       res.send(req.query);
     }
