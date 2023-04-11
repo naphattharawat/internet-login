@@ -55,10 +55,6 @@ app.get('/2', (req, res) => {
 });
 
 app.get('/callback', async (req, res) => {
-  // {
-  //   "code": "YzgyMmQzNzQtOWVhNi00OGYzLWI2MTktZGQ2YjA4MmQxYzg5IzFlYjAyZmYyLTJiM2UtNDUxMy05MzczLTgzOWI0ZDVjYmIwMA==",
-  //   "state": "105500950081"
-  //   }
   try {
     const code = req.query.code;
     // const state = req.query.state;
