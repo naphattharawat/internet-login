@@ -45,7 +45,7 @@
       var url2 = '<%=protocol%>//<%=ip%>/fgtauth?<%=magic%>';
       var form = $('<form action="' + url2 + '" method="post">' +
         `<input type="hidden" name="magic" value="<%=magic%>">` +
-        `<input type="hidden" name="4Tredir" value="${params['4Tredir']}">` +
+        `<input type="hidden" name="4Tredir" value="">` +
         `<input type="hidden" name="username" value="<%=username%>">` +
         `<input type="hidden" name="password" value="<%=password%>">` +
         '</form>');
