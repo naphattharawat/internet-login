@@ -32,16 +32,11 @@
 
 <body>
     <button type="button" onclick="login()">ใช้งานอินเตอร์เน็ต</button>
-    <!-- http://${ip}/fgtauth?${magic}&username=mymoph_${username}&password=${password}'; -->
     <div class="lds-dual-ring centered"></div>
 </body>
 
 <script>
     function login() {
-    //   const params = new Proxy(new URLSearchParams(window.location.search), {
-    //     get: (searchParams, prop) => searchParams.get(prop),
-    //   });
-    //   const protocol = window.location.protocol || 'http:';
       var url2 = '<%=protocol%>//<%=ip%>/fgtauth?<%=magic%>';
       var form = $('<form action="' + url2 + '" method="post">' +
         `<input type="hidden" name="magic" value="<%=magic%>">` +
