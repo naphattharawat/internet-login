@@ -178,7 +178,8 @@ app.post('/mymoph', async (req, res) => {
 //   }
 // });
 
+const port = process.env.PORT;
 
-server.listen(3004, () => {
-  console.log('listening on *:3004');
+server.listen(+port, () => {
+  console.log(`listening on *:${port}`);
 });
