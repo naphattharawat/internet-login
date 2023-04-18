@@ -62,7 +62,7 @@ app.get('/state', async (req, res) => {
   try {
     const { ip, magic, protocol } = req.query;
     const state = Math.floor(Math.random() * 900000000000) + 100000000000;
-    await clientRedis.set(state, JSON.stringify({
+    await clientRedis.set(state.toString(), JSON.stringify({
       'ip': ip,
       'magic': magic,
       'protocol': protocol
