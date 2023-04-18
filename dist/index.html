@@ -301,7 +301,7 @@
     var isGoMyMOPH = false;
     const protocol = window.location.protocol || 'http:';
 
-    var socket = io(`${protocol}//dev.moph.go.th/authen`, {
+    var socket = io(`${protocol}//dev.moph.go.th`, {
       path: "/authen/socket.io",
       // transports: ['websocket']
     });
