@@ -66,7 +66,7 @@ app.get('/state', async (req, res) => {
       'ip': ip,
       'magic': magic,
       'protocol': protocol
-    }), 'EX', 60 * 5);
+    }));
     res.send({ ok: true, state: state });
   } catch (error) {
     console.log(error);
