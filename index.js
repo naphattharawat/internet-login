@@ -13,11 +13,10 @@ app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 const io = new Server(server, {
   secure: true,
-  // cors: {
-  //   origin: "dev.moph.go.th",
-  //   methods: ["GET", "POST"],
-  //   credentials: true
-  // }
+  cors: {
+    origin: "https://dev.moph.go.th/authen",
+    credentials: true
+  }
 });
 // const io = new Server(server,
 //   {
