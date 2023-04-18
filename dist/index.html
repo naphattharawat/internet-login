@@ -302,6 +302,7 @@
     const protocol = window.location.protocol || 'http:';
 
     var socket = io(`${protocol}//dev.moph.go.th`, {
+      reconnect: false,
       path: "/authen/socket.io",
       // transports: ['websocket']
     });
@@ -387,7 +388,7 @@
             console.log(2);
             loginLdap(username, password);
           }
-        }else{
+        } else {
           loginLdap(username, password);
         }
       }).catch(function (error) {
