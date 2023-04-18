@@ -82,7 +82,7 @@ app.get('/callback', async (req, res) => {
       const rs = await requestToken(code);
       console.log(rs);
       if (rs.statusCode == 200) {
-        const value = await clientRedis.get('state');
+        const value = await clientRedis.get(state);
         if (value) {
           const js = JSON.parse(value);
           // res.send({ ok: true, ip: js.ip, magic: js.magic });
