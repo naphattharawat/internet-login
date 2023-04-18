@@ -15,6 +15,7 @@ app.use(cors())
 app.set('view engine', 'ejs');
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 const io = new Server(server, {
   secure: true,
   cors: {
