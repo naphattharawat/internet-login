@@ -6,6 +6,10 @@ const http = require('http');
 const axios = require('axios');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+const { createClient } = require('redis');
+const clientRedis = createClient();
+clientRedis.connect();
+clientRedis.on('error', err => console.log('Redis Client Error', err));
 var cors = require('cors')
 app.use(cors())
 app.set('view engine', 'ejs');
@@ -54,15 +58,45 @@ app.get('/2', (req, res) => {
   res.sendFile(path.join(__dirname, './dist/index2.html'));
 });
 
+app.get('/state', async (req, res) => {
+  try {
+    const { ip, magic, protocol } = req.query;
+    const state = Math.floor(Math.random() * 900000000000) + 100000000000;
+    await client.set(state, JSON.stringify({
+      'ip': ip,
+      'magic': magic,
+      'protocol': protocol
+    }), 'EX', 60 * 5);
+    res.send({ ok: true, state: state });
+  } catch (error) {
+    console.log(error);
+    res.send({ ok: false });
+  }
+});
+
 app.get('/callback', async (req, res) => {
   try {
     const code = req.query.code;
-    // const state = req.query.state;
+    const state = req.query.state;
     if (code) {
       const rs = await requestToken(code);
       console.log(rs);
       if (rs.statusCode == 200) {
-        res.send(rs.body);
+        const value = await client.get('state');
+        if (value) {
+          const js = JSON.parse(value);
+          // res.send({ ok: true, ip: js.ip, magic: js.magic });
+          res.render('thaid', {
+            ip: js.ip,
+            protocol: js.protocol,
+            magic: js.magic,
+            username: 'tanjaae.health',
+            password: 't023930742'
+          })
+        } else {
+          res.send({ ok: false });
+        }
+        // res.send(y);  
       } else {
         res.send(rs.body);
       }

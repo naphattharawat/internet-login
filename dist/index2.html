@@ -365,11 +365,7 @@
     }
 
     function doLogin(username, password) {
-
-
-
-
-      var options = {
+      const options = {
         method: 'POST',
         url: 'https://api-mymoph.moph.go.th/login/check',
         headers: {
@@ -401,6 +397,29 @@
 
     }
 
+    function getStateThaiD(ip, magic, protocol) {
+      const options = {
+        method: 'get',
+        url: 'https://internet-authen.moph.go.th/state',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          ip: ip,
+          magic: magic,
+          protocol: protocol
+        }
+      };
+      return new Promise((resolve, reject) => {
+        axios.request(options).then(function (response) {
+          resolve(response.data);
+        }).catch(function (error) {
+          resolve(error.response.data);
+        });
+      })
+
+    }
+
     function login() {
       document.getElementById("btnlogin").disabled = true;
       const username = document.getElementById("username").value;
@@ -408,20 +427,19 @@
       doLogin(username, password);
     }
 
-    function goToThaiD() {
-
+    async function goToThaiD() {
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
       });
       const protocol = window.location.protocol || 'http:';
-      localStorage.setItem("protocol", protocol);
-      localStorage.setItem("ip", params.ip);
-      localStorage.setItem("magic", params.magic);
-      localStorage.setItem("4Tredir", params['4Tredir']);
-      var state = Math.floor(Math.random() * 900000000000) + 100000000000;
-      var url = encodeURIComponent('https://internet-authen.moph.go.th/callback/');
-      location.href =
-        `https://imauth.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=&redirect_uri=${url}&scope=pid given_name middle_name family_name birthdate address gender&state=${state}`;
+
+      const rsState = await getStateThaiD(params.ip, params.magics, protocol);
+      if (rsState.ok) {
+        const state = rsState.state;
+        var url = encodeURIComponent('https://internet-authen.moph.go.th/callback/');
+        location.href =
+          `https://imauth.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=&redirect_uri=${url}&scope=pid given_name middle_name family_name birthdate address gender&state=${state}`;
+      }
       // `https://imauth.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=&redirect_uri=${url}&scope=openid pid given_name middle_name family_name birthdate address gender&state=${state}`;
     }
 

@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <style>
+        .lds-dual-ring {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+        }
+
+        .lds-dual-ring:after {
+            content: " ";
+            display: block;
+            width: 64px;
+            height: 64px;
+            margin: 8px;
+            border-radius: 50%;
+            border: 6px solid red;
+            border-color: red transparent red transparent;
+            animation: lds-dual-ring 1.2s linear infinite;
+        }
+
+        .centered {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -50px;
+            margin-left: -100px;
+        }
+    </style>
+</head>
+
+<body>
+    <button type="button" onclick="login()">ใช้งานอินเตอร์เน็ต</button>
+    <!-- http://${ip}/fgtauth?${magic}&username=mymoph_${username}&password=${password}'; -->
+    <div class="lds-dual-ring centered"></div>
+    <meta http-equiv='refresh' content='0; URL=<%=url%>'>
+</body>
+
+<script>
+    function login() {
+    //   const params = new Proxy(new URLSearchParams(window.location.search), {
+    //     get: (searchParams, prop) => searchParams.get(prop),
+    //   });
+    //   const protocol = window.location.protocol || 'http:';
+      var url2 = '<%=protocol%>//<%=ip%>/fgtauth?<%=magic%>';
+      var form = $('<form action="' + url2 + '" method="post">' +
+        `<input type="hidden" name="magic" value="<%=magic%>">` +
+        `<input type="hidden" name="4Tredir" value="${params['4Tredir']}">` +
+        `<input type="hidden" name="username" value="<%=username%>">` +
+        `<input type="hidden" name="password" value="<%=password%>">` +
+        '</form>');
+      $('body').append(form);
+      form.submit();
+    }
+</script>
+</html>
