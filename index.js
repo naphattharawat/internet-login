@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const io = new Server(server, {
   secure: true,
   cors: {
-    origin: "internet-authen.moph.go.th",
+    origin: "dev.moph.go.th",
     methods: ["GET", "POST"],
     credentials: true
   }
