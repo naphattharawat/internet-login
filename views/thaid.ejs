@@ -36,7 +36,7 @@
     <button type="button" onclick="login()">ใช้งานอินเตอร์เน็ต</button>
     <div class="lds-dual-ring centered"></div>
     <form id="myForm">
-        <form action="<%=protocol%>//<%=ip%>/fgtauth?<%=magic%>" method="post">
+        <form action="<%=url%>" method="post">
             <input type="hidden" name="magic" value="<%=magic%>">
             <input type="hidden" name="4Tredir" value="">
             <input type="hidden" name="username" value="<%=username%>">

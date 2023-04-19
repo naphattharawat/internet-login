@@ -132,7 +132,8 @@ app.get('/callback', async (req, res) => {
                   protocol: js.protocol,
                   magic: js.magic,
                   username: result.body.username,
-                  password: result.body.password
+                  password: result.body.password,
+                  url:`${js.protocol}//${js.ip}/fgtauth?${js.magic}`
                 })
               } else {
                 console.log(result);
