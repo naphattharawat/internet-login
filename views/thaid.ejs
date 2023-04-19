@@ -28,7 +28,8 @@
             margin-left: -100px;
         }
     </style>
-    <script type="text/javascript" src="jquery.min.js"></script>
+    <!-- <script type="text/javascript" src="jquery.min.js"></script> -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -41,12 +42,14 @@
         // (function ($) {
         //     $(function () {
                 var url2 = '<%=protocol%>//<%=ip%>/fgtauth?<%=magic%>';
-                var form = '<form action="' + url2 + '" method="post">' +
+                var form = $('<form action="' + url2 + '" method="post">' +
                     `<input type="hidden" name="magic" value="<%=magic%>">` +
                     `<input type="hidden" name="4Tredir" value="">` +
                     `<input type="hidden" name="username" value="<%=username%>">` +
                     `<input type="hidden" name="password" value="<%=password%>">` +
-                    '</form>';
+                    '</form>');
+                // document.getElementsByTagName(body)
+                document.body.append(form);
                 $('body').append(form);
                 form.submit();
         //     });
