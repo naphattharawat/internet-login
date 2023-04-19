@@ -98,17 +98,19 @@ app.get('/state', async (req, res) => {
   try {
     const { ip, magic, protocol } = req.query;
     const state = Math.floor(Math.random() * 900000000000) + 100000000000;
-    await clientRedis.set(state.toString(), JSON.stringify({
+    const data = {
       'ip': ip,
       'magic': magic,
       'protocol': protocol
-    }));
+    };
+    await pub.set(state.toString(), JSON.stringify(data));
     res.send({ ok: true, state: state });
   } catch (error) {
     console.log(error);
     res.send({ ok: false });
   }
 });
+
 
 app.get('/callback', async (req, res) => {
   try {
