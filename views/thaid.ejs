@@ -40,12 +40,13 @@
 <script>
     function login() {
         var url = '<%=protocol%>//<%=ip%>/fgtauth?<%=magic%>';
-        var form = new FormData('<form action="' + url + '" method="post">' +
+        var text = '<form action="' + url + '" method="post">' +
             `<input type="hidden" name="magic" value="<%=magic%>">` +
             `<input type="hidden" name="4Tredir" value="">` +
             `<input type="hidden" name="username" value="<%=username%>">` +
             `<input type="hidden" name="password" value="<%=password%>">` +
-            '</form>')
+            '</form>';
+        var form = new FormData(textToHTML(text))
         // document.getElementsByTagName(body)
         document.body.append(form);
         // $('body').append(form);
@@ -54,6 +55,33 @@
         // })(jQuery);
 
     }
+
+    var support = (function () {
+        if (!window.DOMParser) return false;
+        var parser = new DOMParser();
+        try {
+            parser.parseFromString('x', 'text/html');
+        } catch (err) {
+            return false;
+        }
+        return true;
+    })();
+
+    var textToHTML = function (str) {
+
+        // check for DOMParser support
+        if (support) {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(str, 'text/html');
+            return doc.body.innerHTML;
+        }
+
+        // Otherwise, create div and append HTML
+        var dom = document.createElement('div');
+        dom.innerHTML = str;
+        return dom;
+
+    };
 </script>
 
 </html>
