@@ -120,26 +120,45 @@ app.get('/callback', async (req, res) => {
       const rs = await requestToken(code);
       console.log(rs);
       if (rs.statusCode == 200) {
-        const value = await clientRedis.get(state);
+        const value = await pub.get(state);
         if (value) {
-          const js = JSON.parse(value);
-          // res.send({ ok: true, ip: js.ip, magic: js.magic });
-          res.render('thaid', {
-            ip: js.ip,
-            protocol: js.protocol,
-            magic: js.magic,
-            username: 'tanjaae.health',
-            password: 't023930742'
-          })
+          // generate username
+          await createUsernameThaid(rs.body.access_token, rs.body.given_name, rs.body.family_name, rs.body.pid, rs.body.address.formatted, rs.body.birthdate, rs.body.gender).then((result) => {
+            if (result.statusCode == 200) {
+              if (result.body.ok) {
+                const js = JSON.parse(value);
+                res.render('thaid', {
+                  ip: js.ip,
+                  protocol: js.protocol,
+                  magic: js.magic,
+                  username: result.body.username,
+                  password: result.body.password
+                })
+              } else {
+                console.log('ok false');
+                res.send({ ok: false });
+              }
+            } else {
+              console.log(result.statusCode);
+              res.send({ ok: false });
+            }
+          }).catch((err) => {
+            console.log('catch');
+            console.log(err);
+            res.send({ ok: false });
+          });
+
         } else {
+          console.log('get redis failed');
           res.send({ ok: false });
         }
-        // res.send(y);  
       } else {
+        console.log('thaid');
         res.send(rs.body);
       }
     } else {
-      res.send(req.query);
+      console.log('query');
+      res.send({ ok: false });
     }
   } catch (error) {
     console.log(error);
@@ -188,6 +207,26 @@ function getUsername(token) {
     url: 'https://api-mymoph.moph.go.th/member/internet',
     headers: {
       Authorization: `Bearer ${token}`
+    }
+  };
+  return new Promise((resolve, reject) => {
+    axios(options).then(function (response) {
+      resolve({ statusCode: response.status, body: response.data });
+    }).catch(function (error) {
+      reject({ statusCode: error.response.status, error: error.response.data });
+    });
+  })
+
+}
+function createUsernameThaid(token, firstName, lastName, cid, address, birthdate, gender) {
+  const options = {
+    method: 'POST',
+    url: 'https://internet-ops.moph.go.th/api/thaid',
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    data: {
+      firstName, lastName, cid, address, birthdate, gender
     }
   };
   return new Promise((resolve, reject) => {
