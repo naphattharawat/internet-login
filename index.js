@@ -121,19 +121,18 @@ app.get('/callback', async (req, res) => {
       console.log(rs);
       if (rs.statusCode == 200) {
         const value = await pub.get(state);
+        console.log(value);
         if (value) {
           // generate username
           await createUsernameThaid(rs.body.access_token, rs.body.given_name, rs.body.family_name, rs.body.pid, rs.body.address.formatted, rs.body.birthdate, rs.body.gender).then((result) => {
             if (result.statusCode == 200) {
               if (result.body.ok) {
                 const js = JSON.parse(value);
+                console.log(js);
                 res.render('thaid', {
-                  ip: js.ip,
-                  protocol: js.protocol,
-                  magic: js.magic,
                   username: result.body.username,
                   password: result.body.password,
-                  url:`${js.protocol}//${js.ip}/fgtauth?${js.magic}`
+                  url: `${js.protocol || 'https://'}//${js.ip}/fgtauth?${js.magic}`
                 })
               } else {
                 console.log(result);

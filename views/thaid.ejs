@@ -47,13 +47,15 @@
 
 <script>
     function login() {
-        // var url = '<%=protocol%>//<%=ip%>/fgtauth?<%=magic%>';
+        var url = '<%=url%>';
+        console.log(url);
         // var text = '<form action="' + url + '" method="post">' +
         //     `<input type="hidden" name="magic" value="<%=magic%>">` +
         //     `<input type="hidden" name="4Tredir" value="">` +
         //     `<input type="hidden" name="username" value="<%=username%>">` +
         //     `<input type="hidden" name="password" value="<%=password%>">` +
         //     '</form>';
+        document.getElementById("myForm").action = url;
         var myform = document.getElementById('myForm');
         // var form = new FormData(myform);
         // document.getElementsByTagName(body)
@@ -64,7 +66,6 @@
         // })(jQuery);
 
     }
-
 </script>
 
 </html>
