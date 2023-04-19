@@ -27,24 +27,44 @@
             margin-top: -50px;
             margin-left: -100px;
         }
+        .btn-centered {
+            position: fixed;
+            top: 65%;
+            left: 50%;
+            margin-top: -50px;
+            margin-left: -140px;
+        }
+
+        @keyframes lds-dual-ring {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
     <script type="text/javascript" src="https://internet-authen.moph.go.th/jquery.min.js"></script>
     <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
 </head>
 
 <body>
-    <button type="button" onclick="login()">ใช้งานอินเตอร์เน็ต</button>
+    <button class="btn-centered" type="button" onclick="login()">คลิกเพื่อเข้าใช้งานอินเตอร์เน็ต</button>
     <div class="lds-dual-ring centered"></div>
-        <form id="myForm" action="<%=url%>" method="post">
-            <input type="hidden" name="magic" value="<%=magic%>">
-            <input type="hidden" name="4Tredir" value="">
-            <input type="hidden" name="username" value="<%=username%>">
-            <input type="hidden" name="password" value="<%=password%>">
-     
+    <form id="myForm" action="<%=url%>" method="post">
+        <input type="hidden" name="magic" value="<%=magic%>">
+        <input type="hidden" name="4Tredir" value="">
+        <input type="hidden" name="username" value="<%=username%>">
+        <input type="hidden" name="password" value="<%=password%>">
     </form>
 </body>
 
 <script>
+    window.onload = function () {
+        login();
+    };
+
     function login() {
         var url = '<%=url%>';
         console.log(url);

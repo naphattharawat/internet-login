@@ -70,19 +70,16 @@ clientRedis.subscribe('socket', (message) => {
 
 
 
-// app.get('/3', async (req, res) => {
-//   // const publisherClient = createClient();
-//   await pub.publish('socket', JSON.stringify({
-//     sessionId: '123',
-//     username: 'username',
-//     password: 'password'
-//   })).catch((e) => {
-//     console.log(e);
-//   });
-//   // const i = io.emit('session_id', '{}');
-//   // console.log(i);
-//   res.send({});
-// });
+app.get('/3', async (req, res) => {
+  res.render('thaid', {
+    ip: 'js.ip',
+    protocol: 'js.protocol',
+    magic: 'js.magic',
+    username: 'result.body.username',
+    password: 'result.body.password',
+    url: ``
+  })
+});
 
 app.get('/', (req, res) => {
   app.use(express.static(path.join(__dirname, 'dist')));
