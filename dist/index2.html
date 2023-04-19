@@ -400,14 +400,9 @@
     function getStateThaiD(ip, magic, protocol) {
       const options = {
         method: 'get',
-        url: 'https://internet-authen.moph.go.th/state',
+        url: `https://internet-authen.moph.go.th/state?ip=${ip}&magic=${magic}&protocol=${protocol}`,
         headers: {
           'Content-Type': 'application/json'
-        },
-        data: {
-          ip: ip,
-          magic: magic,
-          protocol: protocol
         }
       };
       return new Promise((resolve, reject) => {
