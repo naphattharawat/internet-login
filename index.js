@@ -6,10 +6,12 @@ const http = require('http');
 const axios = require('axios');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+
 const { createClient } = require('redis');
-const clientRedis = createClient();
-clientRedis.connect();
-clientRedis.on('error', err => console.log('Redis Client Error', err));
+
+
+
+
 var cors = require('cors')
 app.use(cors())
 app.set('view engine', 'ejs');
@@ -47,6 +49,39 @@ io.on('connection', (socket) => {
 //   socket.on('chat message', msg => {
 //     io.emit('chat message', '123');
 //   });
+// });
+// Subscriber
+// const subscriberClient = clientRedis.createClient();
+const clientRedis = createClient();
+clientRedis.on('error', err => console.log('Redis Client Error', err));
+clientRedis.connect()
+const pub = clientRedis.duplicate();
+pub.connect();
+clientRedis.subscribe('socket', (message) => {
+  const js = JSON.parse(message)
+  const data = {
+    username: js.username,
+    password: js.password,
+  }
+  io.emit(js.sessionId, JSON.stringify(data));
+}).catch((e) => {
+  console.log(e);
+})
+
+
+
+// app.get('/3', async (req, res) => {
+//   // const publisherClient = createClient();
+//   await pub.publish('socket', JSON.stringify({
+//     sessionId: '123',
+//     username: 'username',
+//     password: 'password'
+//   })).catch((e) => {
+//     console.log(e);
+//   });
+//   // const i = io.emit('session_id', '{}');
+//   // console.log(i);
+//   res.send({});
 // });
 
 app.get('/', (req, res) => {
@@ -171,13 +206,13 @@ app.post('/mymoph', async (req, res) => {
     // console.log(info);
     if (info.statusCode == 200) {
       if (info.body.ok) {
-        const obj = {
+        await pub.publish('socket', JSON.stringify({
+          sessionId: session_id,
           username: info.body.rows.cid,
           password: info.body.rows.password_internet
-        }
-        console.log(obj);
-        console.log('mymoph_session_id ' + session_id);
-        io.emit(session_id, JSON.stringify(obj));
+        })).catch((e) => {
+          console.log(e);
+        });
         res.send({ ok: true });
       } else {
         res.status(500);
@@ -216,7 +251,7 @@ app.post('/mymoph', async (req, res) => {
 
 
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3004;
 
 server.listen(+port, () => {
   console.log(`listening on *:${port}`);
