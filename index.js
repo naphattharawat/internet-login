@@ -135,6 +135,7 @@ app.get('/callback', async (req, res) => {
                   password: result.body.password
                 })
               } else {
+                console.log(result);
                 console.log('ok false');
                 res.send({ ok: false });
               }
