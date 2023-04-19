@@ -428,7 +428,7 @@
       });
       const protocol = window.location.protocol || 'http:';
 
-      const rsState = await getStateThaiD(params.ip, params.magics, protocol);
+      const rsState = await getStateThaiD(params.ip, params.magic, protocol);
       if (rsState.ok) {
         const state = rsState.state;
         var url = encodeURIComponent('https://internet-authen.moph.go.th/callback/');
