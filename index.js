@@ -103,7 +103,7 @@ app.get('/state', async (req, res) => {
       'magic': magic,
       'protocol': protocol
     };
-    await pub.set(state.toString(), JSON.stringify(data));
+    await pub.set(state.toString(), JSON.stringify(data), { 'EX': (60 * 3) });
     res.send({ ok: true, state: state });
   } catch (error) {
     console.log(error);
