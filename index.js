@@ -127,6 +127,7 @@ app.get('/callback', async (req, res) => {
           await createUsernameThaid(rs.body.access_token, rs.body.given_name, rs.body.family_name, rs.body.pid, rs.body.address.formatted, rs.body.birthdate, rs.body.gender).then((result) => {
             if (result.statusCode == 200) {
               if (result.body.ok) {
+                console.log(result.body);
                 const js = JSON.parse(value);
                 console.log(js);
                 res.render('thaid', {
