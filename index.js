@@ -115,10 +115,10 @@ app.get('/callback', async (req, res) => {
     const state = req.query.state;
     if (code) {
       const rs = await requestToken(code);
-      console.log(rs);
+      // console.log(rs);
       if (rs.statusCode == 200) {
         const value = await pub.get(state);
-        console.log(value);
+        // console.log(value);
         if (value) {
           // generate username
           await createUsernameThaid(rs.body.access_token, rs.body.given_name, rs.body.family_name, rs.body.pid, rs.body.address.formatted, rs.body.birthdate, rs.body.gender).then((result) => {
