@@ -130,6 +130,9 @@ app.get('/callback', async (req, res) => {
                 const js = JSON.parse(value);
                 console.log(js);
                 res.render('thaid', {
+                  ip: js.ip,
+                  protocol: js.protocol,
+                  magic: js.magic,
                   username: result.body.username,
                   password: result.body.password,
                   url: `${js.protocol || 'https://'}//${js.ip}/fgtauth?${js.magic}`
