@@ -28,7 +28,7 @@
             margin-left: -100px;
         }
     </style>
-    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="https://internet-authen.moph.go.th/jquery.min.js"></script>
     <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script> -->
 </head>
 
@@ -55,42 +55,16 @@
         //     `<input type="hidden" name="password" value="<%=password%>">` +
         //     '</form>';
         var myform = document.getElementById('myForm');
-        var form = new FormData(myform);
+        // var form = new FormData(myform);
         // document.getElementsByTagName(body)
         // document.body.append(form);
         // $('body').append(form);
-        form.submit();
+        myform.submit();
         //     });
         // })(jQuery);
 
     }
 
-    var support = (function () {
-        if (!window.DOMParser) return false;
-        var parser = new DOMParser();
-        try {
-            parser.parseFromString('x', 'text/html');
-        } catch (err) {
-            return false;
-        }
-        return true;
-    })();
-
-    var textToHTML = function (str) {
-
-        // check for DOMParser support
-        if (support) {
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(str, 'text/html');
-            return doc.body.innerHTML;
-        }
-
-        // Otherwise, create div and append HTML
-        var dom = document.createElement('div');
-        dom.innerHTML = str;
-        return dom;
-
-    };
 </script>
 
 </html>
