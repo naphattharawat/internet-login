@@ -4,7 +4,7 @@
 <head>
   <title>Login V1</title>
   <meta charset="UTF-8">
-  <meta http-equiv='refresh' content='60; URL=http://moph.go.th'>
+  <meta http-equiv='refresh' content='180; URL=http://moph.go.th'>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--===============================================================================================-->
   <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
@@ -171,6 +171,11 @@
             <button id="btnlogin" class="login100-form-btn" type="button" onclick="login()">
               Login
             </button>
+
+            <button id="btnlogin" class="btn-app mobile-hide" type="button" onclick="goToThaiD()">
+              <img src="/images/ThaID.png" alt="" height="30"> &nbsp; ThaID
+            </button>
+
             <!-- <button style="margin-top: 20px;" id="btnlogin mobile-show" class="" type="button" onclick="gotoMyMOPH()">
               Login with MyMOPH
             </button> -->
@@ -233,7 +238,7 @@
                 คลิกที่นี่
               </a>
               <a href="lazada://th.web/pages/wow/gcp/route/lazada/th/"  target="_blank">openlaz</a> -->
-              <a href="https://qr-mymoph.moph.go.th" target="_blank" rel="noopener noreferrer">mymoph</a>
+              <!-- <a href="https://qr-mymoph.moph.go.th" target="_blank" rel="noopener noreferrer">mymoph</a> -->
               <!-- <a href="https://fileex.moph.go.th/rtc/client.html"  target="_blank">fileex</a>
               <a href="safari:https://fileex.moph.go.th/rtc/client.html">safari (works)</a>
               <a href="chrome:https://fileex.moph.go.th/rtc/client.html">chrome (works)</a>
@@ -241,8 +246,8 @@
                 <input type="submit" value="Submit">
               </form>
                -->
-              <button onclick="gotoMyMOPH()" type="button">test</button>
-              <button onclick="gotoMyMOPH2()" type="button">test2</button>
+              <!-- <button onclick="gotoMyMOPH()" type="button">mymoph</button> -->
+              <!-- <button onclick="gotoMyMOPH2()" type="button">test2</button> -->
 
             </td>
           </tr>
@@ -360,11 +365,7 @@
     }
 
     function doLogin(username, password) {
-
-
-
-
-      var options = {
+      const options = {
         method: 'POST',
         url: 'https://api-mymoph.moph.go.th/login/check',
         headers: {
@@ -387,7 +388,7 @@
             console.log(2);
             loginLdap(username, password);
           }
-        }else{
+        } else {
           loginLdap(username, password);
         }
       }).catch(function (error) {
@@ -396,11 +397,45 @@
 
     }
 
+    function getStateThaiD(ip, magic, protocol) {
+      const options = {
+        method: 'get',
+        url: `https://internet-authen.moph.go.th/state?ip=${ip}&magic=${magic}&protocol=${protocol}`,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      return new Promise((resolve, reject) => {
+        axios.request(options).then(function (response) {
+          resolve(response.data);
+        }).catch(function (error) {
+          resolve(error.response.data);
+        });
+      })
+
+    }
+
     function login() {
       document.getElementById("btnlogin").disabled = true;
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
       doLogin(username, password);
+    }
+
+    async function goToThaiD() {
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+      const protocol = window.location.protocol || 'http:';
+
+      const rsState = await getStateThaiD(params.ip, params.magic, protocol);
+      if (rsState.ok) {
+        const state = rsState.state;
+        var url = encodeURIComponent('https://internet-authen.moph.go.th/callback/');
+        location.href =
+          `https://imauth.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=&redirect_uri=${url}&scope=pid given_name middle_name family_name birthdate address gender&state=${state}`;
+      }
+      // `https://imauth.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=&redirect_uri=${url}&scope=openid pid given_name middle_name family_name birthdate address gender&state=${state}`;
     }
 
     function loginLdap(username, password) {
@@ -515,7 +550,7 @@
     });
 
 
-    var countDownTime = 60;
+    var countDownTime = 180;
     var countDownCloseTime = 0;
 
     function countDown() {
