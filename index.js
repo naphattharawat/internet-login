@@ -28,8 +28,10 @@ const io = new Server(server, {
 });
 // const io = new Server(server,
 //   {
+//     secure: true,
 //     cors: {
-//       origin: "http://localhost:3010",
+//       origin: "http://localhost:3004",
+//       methods: ["GET", "POST"],
 //       credentials: true
 //     }
 //   });
@@ -63,7 +65,8 @@ clientRedis.subscribe('socket', (message) => {
     username: js.username,
     password: js.password,
   }
-  io.emit(js.sessionId, JSON.stringify(data));
+  // //io.emit(js.sessionId, JSON.stringify(data));
+  io.to(js.sessionId).emit(js.sessionId,JSON.stringify(data));
 }).catch((e) => {
   console.log(e);
 })
