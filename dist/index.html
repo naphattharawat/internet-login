@@ -150,7 +150,9 @@
           </span>
 
           <div class="wrap-input100 validate-input">
-            <input class="input100" id="username" type="text" name="username" placeholder="เลขบัตรปชช/Username">
+            <!-- <input class="input100" id="username" type="text" name="username" placeholder="เลขบัตรปชช/Username"> -->
+            <input type="text" class="pass input100" placeholder="เลขบัตรปชช/Username"/>
+            <input type="hidden" name="username" id="username" class="hidpassw"  />
             <span class="focus-input100"></span>
             <span class="symbol-input100">
               <i class="fa fa-user" aria-hidden="true"></i>
@@ -303,6 +305,53 @@
   <!--===============================================================================================-->
   <!-- <script src="js/main.js"></script> -->
   <script type="text/javascript">
+    function createstars(n) {
+      return new Array(n + 1).join("*")
+    }
+
+
+    $(document).ready(function () {
+
+      var timer = "";
+
+      $(".panel").append($('<input type="text" class="hidpassw" />'));
+
+      $(".hidpassw").attr("name", $(".pass").attr("name"));
+
+      $(".pass").attr("type", "text").removeAttr("name");
+
+      $("body").on("keypress", ".pass", function (e) {
+        var code = e.which;
+        if (code >= 32 && code <= 127) {
+          var character = String.fromCharCode(code);
+          $(".hidpassw").val($(".hidpassw").val() + character);
+        }
+
+
+      });
+
+      $("body").on("keyup", ".pass", function (e) {
+        var code = e.which;
+
+        if (code == 8) {
+          var length = $(".pass").val().length;
+          $(".hidpassw").val($(".hidpassw").val().substring(0, length));
+        } else if (code == 37) {
+
+        } else {
+          var current_val = $('.pass').val().length;
+          $(".pass").val(createstars(current_val - 1) + $(".pass").val().substring(current_val - 1));
+        }
+
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          $(".pass").val(createstars($(".pass").val().length));
+        }, 200);
+
+      });
+
+    });
+
     var isGoMyMOPH = false;
     const protocol = window.location.protocol || 'http:';
 
