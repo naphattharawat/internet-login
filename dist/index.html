@@ -21,6 +21,7 @@
   <!--===============================================================================================-->
   <link rel="stylesheet" type="text/css" href="css/util.css">
   <link rel="stylesheet" type="text/css" href="css/main.css">
+  <script src="js/sweetalert.js"></script>
   <!--===============================================================================================-->
 
   <style>
@@ -114,7 +115,13 @@
 </head>
 
 <body>
-
+  <script>
+    Swal.fire({
+      title: "ประกาศ !! ปิดเครือข่ายคอมพิวเตอร์ชั่วคราว",
+      html: "วันพุธที่ 26 มิ.ย.67 เวลา 17.00 - 20.00น.<br>จะไม่สามารถเข้าถึงระบบHDC, เว็บไซต์ และ ระบบงานที่ฝากไว้กับ Hosting ที่ Data Center สป.สธ. ได้<br>สอบถามเพิ่มเติมได้ที่ 025901200 หรือ @ictmoph<br>ขออภัยในความไม่สะดวกดังกล่าว",
+      icon: "warning",
+    });
+  </script>
   <div class="limiter">
     <div class="container-login100">
 
