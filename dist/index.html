@@ -106,6 +106,40 @@
         display: none;
       }
     }
+
+    .btn-app-provider {
+      width: 100%;
+      position: relative;
+      /* background-color: #007bff; */
+      text-align:center;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+    }
+    .btn-app-provider img {
+      height: 30px;
+    }
+    .badge {
+      position: absolute;
+      top: 13px;
+      right: 5px;
+      background: red;
+      color: white;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
+    }
   </style>
   <script src="axios.min.js"></script>
   <script src="jquery.min.js"></script>
@@ -182,7 +216,15 @@
             </button>
 
             <button id="btnlogin" class="btn-app" type="button" onclick="goToThaiD()">
-              <img src="/images/ThaID.png" alt="" height="30"> &nbsp; ThaID
+              <img src="https://internet-authen.moph.go.th/images/ThaID.png" height="30"> &nbsp; ThaID
+            </button>
+
+            <!-- <button id="btnlogin" class="btn-app" type="button" onclick="goToProviderId()">
+              <img src="/images/providerId.png" alt="" height="30"> &nbsp; ProviderID
+            </button> -->
+            <button id="btnlogin" class="btn-app-provider" type="button" onclick="goToProviderId()">
+              <span class="badge">ทดลองใช้งาน</span>
+              <img src="https://internet-authen.moph.go.th/images/ThaID.png" alt="" height="30"> &nbsp; ProviderID
             </button>
 
             <!-- <button style="margin-top: 20px;" id="btnlogin mobile-show" class="" type="button" onclick="gotoMyMOPH()">
@@ -492,6 +534,21 @@
           `https://imauth.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=&redirect_uri=${url}&scope=pid given_name middle_name family_name birthdate address gender&state=${state}`;
       }
       // `https://imauth.bora.dopa.go.th/api/v2/oauth2/auth/?response_type=code&client_id=M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=&redirect_uri=${url}&scope=openid pid given_name middle_name family_name birthdate address gender&state=${state}`;
+    }
+
+    async function goToProviderId() {
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+      const protocol = window.location.protocol || 'http:';
+
+      const rsState = await getStateThaiD(params.ip, params.magic, protocol);
+      if (rsState.ok) {
+        const state = rsState.state;
+        var url = encodeURIComponent('https://internet-authen.moph.go.th/callback-providerid');
+        location.href =
+          `https://moph.id.th/oauth/redirect?client_id=9c42196f-48ed-4693-8da1-e2e8b1443dcf&redirect_uri=${url}&response_type=code`;
+      }
     }
 
     function loginLdap(username, password) {
