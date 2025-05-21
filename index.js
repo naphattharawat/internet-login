@@ -274,8 +274,8 @@ function requestTokenProviderId(token) {
     const data = {
       token: token,
       token_by: 'Health ID',
-      client_id: '9c421c1f-68cd-461c-b23d-33f6f3b33d1e',
-      secret_key: 'sSYQGjjdQ55U3VMxAEWYu6D1CgkyYEMBqEgz5CHv'
+      client_id: '4b5aa9d4-39d0-4c10-9cef-bd860737985d',
+      secret_key: '8XNIaPJTOKSrz0aepLXuVjEgwxFYW67D'
     }
     const options = {
       method: 'POST',
@@ -306,8 +306,8 @@ function getProfileProviderId(token) {
     // ใช้ค่า “Basic”+Base64({{client_id}}:{{client_secret}})
     // const authorization = Buffer.from(`9c421c1f-68cd-461c-b23d-33f6f3b33d1e:sSYQGjjdQ55U3VMxAEWYu6D1CgkyYEMBqEgz5CHv`).toString('base64');
     const data = {
-      client_id: '19754b45-98e0-42d7-ba79-b20d607d93cb',
-      secret_key: 'FEE8D8AFAF18369AD44DA54473C8B'
+      client_id: '4b5aa9d4-39d0-4c10-9cef-bd860737985d',
+      secret_key: '8XNIaPJTOKSrz0aepLXuVjEgwxFYW67D'
     }
     const options = {
       method: 'GET',
