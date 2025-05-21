@@ -192,6 +192,8 @@ app.get('/callback-providerid', async (req, res) => {
           if (value) {
             // generate username
             const profile = await getProfileProviderId(providerIdToken);
+            console.log('profile', profile);
+            
             await createUsernameProviderID(providerIdToken, profile.body.data.firstname_th, profile.body.data.lastname_th, profile.body.data.full_cid, `${profile.body.data.organization[0].hcode}-${profile.body.data.organization[0].hname_th}`).then((result) => {
               if (result.statusCode == 200) {
                 if (result.body.ok) {
