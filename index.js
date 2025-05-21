@@ -185,6 +185,9 @@ app.get('/callback-providerid', async (req, res) => {
         console.log('mophIdToken', mophIdToken);
         const rs2 = await requestTokenProviderId(mophIdToken)
         console.log('rs2', rs2);
+        console.log('state', state);
+        console.log('rs.body.status', rs.body.status);
+        
         if (rs.body.status == 200) {
           const providerIdToken = rs2.body.data.access_token;
           const value = await pub.get(state);
