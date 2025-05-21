@@ -188,7 +188,7 @@ app.get('/callback-providerid', async (req, res) => {
         console.log('state', state);
         console.log('rs.body.status', rs.body.status);
         
-        if (rs.body.status == 200) {
+        if (rs2.body.status == 200) {
           const providerIdToken = rs2.body.data.access_token;
           const value = await pub.get(state);
           console.log('value', value);
