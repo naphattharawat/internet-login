@@ -277,18 +277,20 @@ function requestTokenMOPHID(code) {
   try {
 
     // ใช้ค่า “Basic”+Base64({{client_id}}:{{client_secret}})
-    const authorization = Buffer.from(`9c421c1f-68cd-461c-b23d-33f6f3b33d1e:sSYQGjjdQ55U3VMxAEWYu6D1CgkyYEMBqEgz5CHv`).toString('base64');
+    // const authorization = Buffer.from(`9c421c1f-68cd-461c-b23d-33f6f3b33d1e:sSYQGjjdQ55U3VMxAEWYu6D1CgkyYEMBqEgz5CHv`).toString('base64');
     const data = {
       grant_type: 'authorization_code',
       code: code,
-      redirect_uri: 'https://internet-authen.moph.go.th/callback-providerid'
+      redirect_uri: 'https://internet-authen.moph.go.th/callback-providerid',
+      client_id:'9c421c1f-68cd-461c-b23d-33f6f3b33d1e',
+      client_secret: 'sSYQGjjdQ55U3VMxAEWYu6D1CgkyYEMBqEgz5CHv'
     }
     const options = {
       method: 'POST',
       url: 'https://moph.id.th/api/v1/token',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `Basic ${authorization}`
+        // 'Authorization': `Basic ${authorization}`
       },
       data: data
     };
