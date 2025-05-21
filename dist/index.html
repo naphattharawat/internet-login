@@ -547,7 +547,7 @@
         const state = rsState.state;
         var url = encodeURIComponent('https://internet-authen.moph.go.th/callback-providerid');
         location.href =
-          `https://moph.id.th/oauth/redirect?client_id=9c421c1f-68cd-461c-b23d-33f6f3b33d1e&redirect_uri=${url}&response_type=code`;
+          `https://moph.id.th/oauth/redirect?client_id=9c421c1f-68cd-461c-b23d-33f6f3b33d1e&redirect_uri=${url}&response_type=code&state=${state}&scope=openid profile email phone`;
       }
     }
 
