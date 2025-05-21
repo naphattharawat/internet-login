@@ -117,7 +117,7 @@ app.get('/callback', async (req, res) => {
     const code = req.query.code;
     const state = req.query.state;
     if (code) {
-      const rs = await requestToken(code);
+      const rs = await requestTokenThaiD(code);
       // console.log(rs);
       if (rs.statusCode == 200) {
         const value = await pub.get(state);
@@ -234,7 +234,40 @@ app.get('/callback-providerid', async (req, res) => {
   }
 });
 
+function requestTokenThaiD(code) {
+  try {
 
+    // ใช้ค่า “Basic”+Base64({{client_id}}:{{client_secret}})
+    const authorization = Buffer.from(`M0VvdVpyaVQ0TnNlYUpPMHNyQXo5eURzU25rZkt4UW0=:THpwQUcya1BUbjNISVpiNVJLdDd2OHFpT3lIU1BsWjdqbWx4U3lMQg==`).toString('base64');
+    const data = {
+      grant_type: 'authorization_code',
+      code: code,
+      redirect_uri: 'https://internet-authen.moph.go.th/callback/'
+    }
+    const options = {
+      method: 'POST',
+      url: 'https://imauth.bora.dopa.go.th/api/v2/oauth2/token/',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+        'Authorization': `Basic ${authorization}`
+        // 'Content-Length': Buffer.byteLength(JSON.stringify(data))
+      },
+      data: data
+    };
+    return new Promise((resolve, reject) => {
+      axios(options).then(function (response) {
+        resolve({ statusCode: response.status, body: response.data });
+      }).catch(function (error) {
+        // console.log(error);
+        reject({ statusCode: error.response.status, error: error.response.data });
+      });
+    })
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+
+}
 function requestTokenMOPHID(code) {
   try {
 
