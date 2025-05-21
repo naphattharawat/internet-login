@@ -176,10 +176,15 @@ app.get('/callback-providerid', async (req, res) => {
     const code = req.query.code;
     const state = req.query.state;
     if (code) {
+      console.log('code', code);
+
       const rs = await requestTokenMOPHID(code);
+      console.log('rs', rs);
       if (rs.body.status == 'success') {
         const mophIdToken = rs.body.data.access_token;
+        console.log('mophIdToken', mophIdToken);
         const rs2 = await requestTokenProviderId(mophIdToken)
+        console.log('rs2', rs2);
         if (rs.body.status == 200) {
           const providerIdToken = rs2.body.data.access_token;
           const value = await pub.get(state);
