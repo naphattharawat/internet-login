@@ -188,12 +188,14 @@ app.get('/callback-providerid', async (req, res) => {
         if (rs.body.status == 200) {
           const providerIdToken = rs2.body.data.access_token;
           const value = await pub.get(state);
-          // console.log(value);
+          console.log('value', value);
           if (value) {
             // generate username
-            const profile = await getProfileProviderId(mophIdToken);
-            console.log('profile', profile);
+            console.log('start profile');
             
+            const profile = await getProfileProviderId(providerIdToken);
+            console.log('profile', profile);
+
             await createUsernameProviderID(providerIdToken, profile.body.data.firstname_th, profile.body.data.lastname_th, profile.body.data.full_cid, `${profile.body.data.organization[0].hcode}-${profile.body.data.organization[0].hname_th}`).then((result) => {
               if (result.statusCode == 200) {
                 if (result.body.ok) {
@@ -284,7 +286,7 @@ function requestTokenMOPHID(code) {
       grant_type: 'authorization_code',
       code: code,
       redirect_uri: 'https://internet-authen.moph.go.th/callback-providerid',
-      client_id:'9c421c1f-68cd-461c-b23d-33f6f3b33d1e',
+      client_id: '9c421c1f-68cd-461c-b23d-33f6f3b33d1e',
       client_secret: 'sSYQGjjdQ55U3VMxAEWYu6D1CgkyYEMBqEgz5CHv'
     }
     const options = {
@@ -364,7 +366,7 @@ function getProfileProviderId(token) {
       axios(options).then(function (response) {
         resolve({ statusCode: response.status, body: response.data });
       }).catch(function (error) {
-        // console.log(error);
+        console.log(error);
         reject({ statusCode: error.response.status, error: error.response.data });
       });
     })
