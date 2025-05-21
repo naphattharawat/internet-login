@@ -191,7 +191,7 @@ app.get('/callback-providerid', async (req, res) => {
           // console.log(value);
           if (value) {
             // generate username
-            const profile = await getProfileProviderId(providerIdToken);
+            const profile = await getProfileProviderId(mophIdToken);
             console.log('profile', profile);
             
             await createUsernameProviderID(providerIdToken, profile.body.data.firstname_th, profile.body.data.lastname_th, profile.body.data.full_cid, `${profile.body.data.organization[0].hcode}-${profile.body.data.organization[0].hname_th}`).then((result) => {
