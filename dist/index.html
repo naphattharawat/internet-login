@@ -217,9 +217,9 @@
               Login
             </button>
 
-            <!-- <button id="btnlogin" class="btn-app" type="button" onclick="goToMyMOPH()">
+            <button id="btnlogin" class="btn-app" type="button" onclick="goToMyMOPH()">
               <img src="https://internet-authen.moph.go.th/images/mymoph-v8-go-green.png" height="30"> &nbsp; MyMOPH
-            </button> -->
+            </button>
             <button id="btnlogin" class="btn-app" type="button" onclick="goToThaiD()">
               <img src="https://internet-authen.moph.go.th/images/ThaID.png" height="30"> &nbsp; ThaID
             </button>
@@ -227,10 +227,10 @@
             <!-- <button id="btnlogin" class="btn-app" type="button" onclick="goToProviderId()">
               <img src="/images/providerId.png" alt="" height="30"> &nbsp; ProviderID
             </button> -->
-            <button id="btnlogin" class="btn-app-provider" type="button" onclick="goToProviderId()">
+            <!-- <button id="btnlogin" class="btn-app-provider" type="button" onclick="goToProviderId()">
               <span class="badge">ทดลองใช้งาน</span>
               <img src="https://internet-authen.moph.go.th/images/providerId.png" alt="" height="30"> &nbsp; ProviderID
-            </button>
+            </button> -->
 
             <!-- <button style="margin-top: 20px;" id="btnlogin mobile-show" class="" type="button" onclick="gotoMyMOPH()">
               Login with MyMOPH
@@ -536,7 +536,7 @@
         const state = rsState.state;
         var url = encodeURIComponent('https://internet-authen.moph.go.th/callback-mymoph');
         location.href =
-          `https://auth.moph.go.th/v1/oauth2/auth?response_type=code&client_id=LbVDZvvfiOQwzUapWdeW&redirect_uri=${url}&scope=cid&state=${state}`;
+          `https://auth.moph.go.th/v1/oauth2/auth?response_type=code&client_id=LbVDZvvfiOQwzUapWdeW&redirect_uri=${url}&scope=cid fname lname&state=${state}`;
       }
     }
     async function goToThaiD() {
