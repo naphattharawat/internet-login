@@ -178,11 +178,17 @@ app.get('/callback-mymoph', async (req, res) => {
       const rs = await requestTokenMyMOPH(code);
       console.log(rs);
       if (rs.statusCode == 200) {
+        const userInfo = await requestUserInfoMyMOPH(rs.body.access_token);
+        if (userInfo.statusCode != 200) {
+          console.log('userinfo failed');
+          console.log(userInfo);
+          return res.send({ ok: false });
+        }
         const value = await pub.get(state);
         // console.log(value);
         if (value) {
           // generate username
-          await createUsernameMyMOPH(rs.body.access_token, rs.body.fname, rs.body.lname, rs.body.cid).then((result) => {
+          await createUsernameMyMOPH(rs.body.access_token, userInfo.body.fname, userInfo.body.lname, userInfo.body.cid).then((result) => {
             if (result.statusCode == 200) {
               if (result.body.ok) {
                 console.log(result.body);
@@ -338,6 +344,28 @@ function requestTokenMyMOPH(code) {
     return error;
   }
 
+}
+function requestUserInfoMyMOPH(token) {
+  try {
+    const options = {
+      method: 'POST',
+      url: 'https://auth.moph.go.th/v1/userinfo',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    };
+    return new Promise((resolve, reject) => {
+      axios(options).then(function (response) {
+        resolve({ statusCode: response.status, body: response.data });
+      }).catch(function (error) {
+        reject({ statusCode: error.response.status, error: error.response.data });
+      });
+    })
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
 }
 function requestTokenThaiD(code) {
   try {
