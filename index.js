@@ -170,6 +170,64 @@ app.get('/callback', async (req, res) => {
     res.send(error);
   }
 });
+app.get('/callback-mymoph', async (req, res) => {
+  try {
+    const code = req.query.code;
+    const state = req.query.state;
+    if (code) {
+      const rs = await requestTokenMyMOPH(code);
+      // console.log(rs);
+      if (rs.statusCode == 200) {
+        const value = await pub.get(state);
+        // console.log(value);
+        if (value) {
+          // generate username
+          await createUsernameMyMOPH(rs.body.access_token, rs.body.fname, rs.body.lname, rs.body.cid).then((result) => {
+            if (result.statusCode == 200) {
+              if (result.body.ok) {
+                console.log(result.body);
+                const js = JSON.parse(value);
+                console.log(js);
+                res.render('thaid', {
+                  ip: js.ip,
+                  protocol: js.protocol,
+                  magic: js.magic,
+                  username: result.body.username,
+                  password: result.body.password,
+                  url: `${js.protocol || 'https://'}//${js.ip}/fgtauth?${js.magic}`
+                })
+              } else {
+                console.log(result);
+                console.log('ok false');
+                res.send({ ok: false });
+              }
+            } else {
+              console.log(result.statusCode);
+              res.send({ ok: false });
+            }
+          }).catch((err) => {
+            console.log('catch');
+            console.log(err);
+            res.send({ ok: false });
+          });
+
+        } else {
+          console.log('get redis failed');
+          res.send({ ok: false });
+        }
+      } else {
+        console.log('thaid');
+        res.send(rs.body);
+      }
+    } else {
+      console.log('query');
+      res.send({ ok: false });
+    }
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+});
 
 app.get('/callback-providerid', async (req, res) => {
   try {
@@ -246,6 +304,42 @@ app.get('/callback-providerid', async (req, res) => {
   }
 });
 
+function requestTokenMyMOPH(code) {
+  try {
+
+    // ใช้ค่า “Basic”+Base64({{client_id}}:{{client_secret}})
+    // const authorization = Buffer.from(`LbVDZvvfiOQwzUapWdeW:SvZCYBdrZAHzDfEtBCOlsjDzhFEZQjHJ`).toString('base64');
+    const data = {
+      grant_type: 'authorization_code',
+      code: code,
+      redirect_uri: 'https://internet-authen.moph.go.th/callback-mymoph',
+      client_id: 'LbVDZvvfiOQwzUapWdeW',
+      client_secret: 'SvZCYBdrZAHzDfEtBCOlsjDzhFEZQjHJ'
+    }
+    const options = {
+      method: 'POST',
+      url: 'https://auth.moph.go.th/v1/oauth2/token',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+        'Authorization': `Basic ${authorization}`
+        // 'Content-Length': Buffer.byteLength(JSON.stringify(data))
+      },
+      data: data
+    };
+    return new Promise((resolve, reject) => {
+      axios(options).then(function (response) {
+        resolve({ statusCode: response.status, body: response.data });
+      }).catch(function (error) {
+        // console.log(error);
+        reject({ statusCode: error.response.status, error: error.response.data });
+      });
+    })
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+
+}
 function requestTokenThaiD(code) {
   try {
 
@@ -397,6 +491,25 @@ function getUsername(token) {
   })
 
 }
+function createUsernameMyMOPH(token, firstName, lastName, cid) {
+  const options = {
+    method: 'POST',
+    url: 'https://internet-ops.moph.go.th/api/mymoph/temp',
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    data: {
+      firstName, lastName, cid
+    }
+  };
+  return new Promise((resolve, reject) => {
+    axios(options).then(function (response) {
+      resolve({ statusCode: response.status, body: response.data });
+    }).catch(function (error) {
+      reject({ statusCode: error.response.status, error: error.response.data });
+    });
+  })
+}
 function createUsernameThaid(token, firstName, lastName, cid, address, birthdate, gender) {
   const options = {
     method: 'POST',
@@ -415,7 +528,6 @@ function createUsernameThaid(token, firstName, lastName, cid, address, birthdate
       reject({ statusCode: error.response.status, error: error.response.data });
     });
   })
-
 }
 function createUsernameProviderID(token, firstName, lastName, cid, address) {
   const options = {

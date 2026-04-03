@@ -217,6 +217,9 @@
               Login
             </button>
 
+            <!-- <button id="btnlogin" class="btn-app" type="button" onclick="goToMyMOPH()">
+              <img src="https://internet-authen.moph.go.th/images/mymoph-v8-go-green.png" height="30"> &nbsp; MyMOPH
+            </button> -->
             <button id="btnlogin" class="btn-app" type="button" onclick="goToThaiD()">
               <img src="https://internet-authen.moph.go.th/images/ThaID.png" height="30"> &nbsp; ThaID
             </button>
@@ -522,6 +525,20 @@
       doLogin(username, password);
     }
 
+    async function goToMyMOPH() {
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+      const protocol = window.location.protocol || 'http:';
+
+      const rsState = await getStateThaiD(params.ip, params.magic, protocol);
+      if (rsState.ok) {
+        const state = rsState.state;
+        var url = encodeURIComponent('https://internet-authen.moph.go.th/callback-mymoph');
+        location.href =
+          `https://auth.moph.go.th/v1/oauth2/auth?response_type=code&client_id=LbVDZvvfiOQwzUapWdeW&redirect_uri=${url}&scope=cid&state=${state}`;
+      }
+    }
     async function goToThaiD() {
       const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
