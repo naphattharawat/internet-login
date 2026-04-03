@@ -185,7 +185,7 @@ app.get('/callback-mymoph', async (req, res) => {
           return res.send({ ok: false });
         }
         const value = await pub.get(state);
-        // console.log(value);
+        console.log(userInfo,value);
         if (value) {
           // generate username
           await createUsernameMyMOPH(rs.body.access_token, userInfo.body.fname, userInfo.body.lname, userInfo.body.cid).then((result) => {
