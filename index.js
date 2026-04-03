@@ -176,7 +176,7 @@ app.get('/callback-mymoph', async (req, res) => {
     const state = req.query.state;
     if (code) {
       const rs = await requestTokenMyMOPH(code);
-      // console.log(rs);
+      console.log(rs);
       if (rs.statusCode == 200) {
         const value = await pub.get(state);
         // console.log(value);
@@ -320,8 +320,7 @@ function requestTokenMyMOPH(code) {
       method: 'POST',
       url: 'https://auth.moph.go.th/v1/oauth2/token',
       headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Authorization': `Basic ${authorization}`
+        'Content-type': 'application/x-www-form-urlencoded'
         // 'Content-Length': Buffer.byteLength(JSON.stringify(data))
       },
       data: data
