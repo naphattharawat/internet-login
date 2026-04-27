@@ -25,20 +25,52 @@
   <!--===============================================================================================-->
 
   <style>
-    .socket-hide {
-      display: none;
-    }
-
-    .socket-show {
-      display: block;
-    }
-
     .mobile-hide {
       display: inline;
     }
 
     .mobile-show {
       display: none;
+    }
+
+    .auth-layout {
+      width: 100%;
+      display: flex;
+      gap: 40px;
+      align-items: stretch;
+      justify-content: center;
+      margin-top: 24px;
+      margin-bottom: 24px;
+    }
+
+    .auth-column {
+      width: 340px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .auth-column-right {
+      justify-content: flex-start;
+    }
+
+    .primary-login-buttons {
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+
+    .app-login-buttons {
+      padding-top: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+
+    .btn-app {
+      margin-top: 0 !important;
     }
 
     @media (max-width: 992px) {
@@ -61,14 +93,6 @@
       .mobile-100-percent {
         width: 100% !important;
       }
-
-      .socket-hide {
-        display: none;
-      }
-
-      .socket-show {
-        display: inline;
-      }
     }
 
     @media (max-width: 768px) {
@@ -80,12 +104,19 @@
         display: inline;
       }
 
-      .socket-hide {
-        display: none;
+      .auth-layout {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
       }
 
-      .socket-show {
-        display: none;
+      .auth-column {
+        width: 100%;
+        max-width: 420px;
+      }
+
+      .auth-column-right {
+        justify-content: flex-start;
       }
     }
 
@@ -96,14 +127,6 @@
 
       .mobile-show {
         display: inline;
-      }
-
-      .socket-hide {
-        display: none;
-      }
-
-      .socket-show {
-        display: none;
       }
     }
 
@@ -144,8 +167,6 @@
   <script src="axios.min.js"></script>
   <script src="jquery.min.js"></script>
   <script src="vendor/tilt/tilt.jquery.min.js"></script>
-  <script type="text/javascript" src="qrcode.js"></script>
-  <script type="text/javascript" src="socket.io.js"></script>
 </head>
 
 <body>
@@ -166,63 +187,54 @@
           <img class="login100-pic" src="./images/mymoph-v8-go-green.png"
             title="My MOPH">
         </div>
-        <div class="js-tilt" data-tilt id="socket-error">
-          การเชื่อมต่อ MyMOPH มีปัญหา <br>กรุณาใช้ username password <br>ในการ login<br>
-          <!-- <div id="qrcode" style="width: 100%;"></div> -->
-          <img src="./images/failed.png" style="width: 30%;"><br>
-          refresh in
-          <b id=countdown>
-          </b>
-          sec
-        </div>
-        <div class="js-tilt" data-tilt id="socket-connect">
-          Scan from MyMOPH
-          <div id="qrcode" style="width: 100%;"></div>
-          refresh in
-          <b id=countdown2>
-          </b>
-          sec
-        </div>
 
-        <div class="login100-form validate-form">
-          <span class="login100-form-title">
-            Internet Login
-          </span>
-          <span class="login100-form-subtitle" id="message" style="display: none;">
-            Username หรือ รหัสผ่านผ่านไม่ถูกต้อง
-          </span>
+        <span class="login100-form-title auth-main-title">
+          Internet Login
+        </span>
 
-          <div class="wrap-input100 validate-input">
-            <input class="input100" id="username" type="text" name="username" placeholder="เลขบัตรปชช/Username">
-            <!-- <input type="text" class="pass input100" placeholder="เลขบัตรปชช/Username"/> -->
-            <!-- <input type="hidden" name="username" id="username" class="hidpassw"  /> -->
-            <span class="focus-input100"></span>
-            <span class="symbol-input100">
-              <i class="fa fa-user" aria-hidden="true"></i>
+        <div class="auth-layout">
+          <div class="login100-form validate-form auth-column auth-column-left">
+            <span class="login100-form-subtitle" id="message" style="display: none;">
+              Username หรือ รหัสผ่านผ่านไม่ถูกต้อง
             </span>
+
+            <div class="wrap-input100 validate-input">
+              <input class="input100" id="username" type="text" name="username" placeholder="Username/Ticket">
+              <!-- <input type="text" class="pass input100" placeholder="เลขบัตรปชช/Username"/> -->
+              <!-- <input type="hidden" name="username" id="username" class="hidpassw"  /> -->
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-user" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <!-- <div class="wrap-input100 validate-input"> -->
+            <!-- <div class="wrap-input100 validate-input" data-validate="Password is required"> -->
+            <div class="wrap-input100">
+              <input class="input100" id="password" type="password" name="password" placeholder="Password">
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                <i class="fa fa-lock" aria-hidden="true"></i>
+              </span>
+            </div>
+
+            <div class="container-login100-form-btn primary-login-buttons">
+              <button id="btnlogin" class="login100-form-btn" type="button" onclick="login()">
+                Login
+              </button>
+            </div>
           </div>
 
-          <!-- <div class="wrap-input100 validate-input"> -->
-          <!-- <div class="wrap-input100 validate-input" data-validate="Password is required"> -->
-          <div class="wrap-input100">
-            <input class="input100" id="password" type="password" name="password" placeholder="Password">
-            <span class="focus-input100"></span>
-            <span class="symbol-input100">
-              <i class="fa fa-lock" aria-hidden="true"></i>
-            </span>
+          <div class="login100-form auth-column auth-column-right">
+            <div class="container-login100-form-btn app-login-buttons">
+              <button class="btn-app" type="button" onclick="goToMyMOPH()">
+                <img src="https://internet-authen.moph.go.th/images/mymoph-v8-go-green.png" height="30"> &nbsp; MyMOPH
+              </button>
+              <button class="btn-app" type="button" onclick="goToThaiD()">
+                <img src="https://internet-authen.moph.go.th/images/ThaID.png" height="30"> &nbsp; ThaID
+              </button>
+            </div>
           </div>
-
-          <div class="container-login100-form-btn">
-            <button id="btnlogin" class="login100-form-btn" type="button" onclick="login()">
-              Login
-            </button>
-
-            <button id="btnlogin" class="btn-app-provider" type="button" onclick="goToMyMOPH()">
-              <img src="https://internet-authen.moph.go.th/images/mymoph-v8-go-green.png" height="30"> &nbsp; MyMOPH 
-            </button>
-            <button id="btnlogin" class="btn-app" type="button" onclick="goToThaiD()">
-              <img src="https://internet-authen.moph.go.th/images/ThaID.png" height="30"> &nbsp; ThaID
-            </button>
 
             <!-- <button id="btnlogin" class="btn-app" type="button" onclick="goToProviderId()">
               <img src="/images/providerId.png" alt="" height="30"> &nbsp; ProviderID
@@ -235,8 +247,6 @@
             <!-- <button style="margin-top: 20px;" id="btnlogin mobile-show" class="" type="button" onclick="gotoMyMOPH()">
               Login with MyMOPH
             </button> -->
-          </div>
-
           <!-- <div class="text-center p-t-12">
             <span class="txt1">
               Forgot
@@ -407,65 +417,6 @@
     });
 
     var isGoMyMOPH = false;
-    const protocol = window.location.protocol || 'http:';
-
-    var socket = io(`${protocol}//internet-authen.moph.go.th`, {
-      path: "/socket.io",
-      // transports: ['websocket']
-    });
-
-    // var socket = io('http://localhost:3004', {
-    //   withCredentials: true,
-    // });
-
-    document.getElementById('socket-connect').className = 'socket-hide';
-    document.getElementById('socket-error').className = 'socket-hide';
-    socket.on('connect_error', function (msg) {
-      document.getElementById('socket-connect').className = 'socket-hide';
-      document.getElementById('socket-error').className = 'socket-show';
-    });
-
-    try {
-      socket.on('connect', function (msg) {
-        document.getElementById('socket-connect').className = 'socket-show';
-        document.getElementById('socket-error').className = 'socket-hide';
-        console.log(socket.id);
-        if (socket.id) {
-          makeQRCode(socket.id);
-          subscribe(socket.id);
-        } else {
-          console.log('disconnect');
-        }
-      });
-
-    } catch (error) {
-      console.log('error');
-    }
-
-
-    var qrcode = new QRCode(document.getElementById("qrcode"), {
-      width: 180,
-      height: 180
-    });
-
-    function makeQRCode(id) {
-      console.log(id);
-      var url = `mymoph://qr?clientId=dQwGiPuucehlbSEVXiVU&sessionId=${id}`
-      qrcode.makeCode(url);
-    }
-
-    makeQRCode();
-
-    function subscribe(socketId) {
-      socket.on(socketId, function (msg) {
-        console.log(msg);
-        if (msg) {
-          const json = JSON.parse(msg);
-          loginFromSocket(json.username, json.password);
-        }
-        console.log(msg);
-      });
-    }
 
     function doLogin(username, password) {
       const options = {
@@ -691,8 +642,14 @@
         location.reload();
         return;
       }
-      document.getElementById('countdown').innerHTML = countDownTime;
-      document.getElementById('countdown2').innerHTML = countDownTime;
+      var countdown = document.getElementById('countdown');
+      if (countdown) {
+        countdown.innerHTML = countDownTime;
+      }
+      var countdown2 = document.getElementById('countdown2');
+      if (countdown2) {
+        countdown2.innerHTML = countDownTime;
+      }
       counter = setTimeout("countDown()", 1000);
     }
 
