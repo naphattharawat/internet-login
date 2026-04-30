@@ -26,7 +26,18 @@
 
   <style>
     .mobile-hide {
-      display: inline;
+      display: table;
+    }
+
+    .desktop-contact {
+      /* display: block !important; */
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .desktop-contact td,
+    .desktop-contact p {
+      text-align: right !important;
     }
 
     .mobile-show {
@@ -37,16 +48,36 @@
       width: 100%;
       display: flex;
       gap: 40px;
-      align-items: stretch;
+      align-items: flex-start;
       justify-content: center;
       margin-top: 24px;
       margin-bottom: 24px;
     }
 
     .auth-column {
-      width: 340px;
+      width: 360px;
       display: flex;
       flex-direction: column;
+    }
+
+    .auth-column-hidden {
+      display: none;
+    }
+
+    .auth-card {
+      background: #ffffff;
+      border: 1px solid #e4ebf5;
+      border-radius: 18px;
+      box-shadow: 0 12px 28px rgba(33, 55, 85, 0.08);
+      padding: 22px 18px;
+    }
+
+    .auth-card-title {
+      font-family: Montserrat-Bold;
+      font-size: 18px;
+      color: #1b365d;
+      text-align: center;
+      margin-bottom: 14px;
     }
 
     .auth-column-right {
@@ -66,7 +97,66 @@
       display: flex;
       flex-direction: column;
       align-items: stretch;
+      gap: 12px;
+    }
+
+    .app-login-buttons .btn-app {
+      border: 1px solid #d7e2f2;
+      background: #f6f9ff;
+      color: #1b365d;
+      font-family: Montserrat-Bold;
+      font-size: 15px;
+      border-radius: 14px;
+      height: 54px;
+      justify-content: flex-start;
       gap: 10px;
+      padding-left: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .app-login-buttons .btn-app-with-logo {
+      position: relative;
+      justify-content: center;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .app-login-buttons .btn-app-with-logo img {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .app-login-buttons .btn-app-label {
+      display: block;
+      width: 100%;
+      text-align: center;
+    }
+
+    .app-login-buttons .btn-app:hover {
+      background: #ecf3ff;
+      border-color: #b7cdf1;
+      transform: translateY(-1px);
+    }
+
+    .app-login-buttons .btn-login-toggle {
+      justify-content: center;
+      color: #ffffff;
+      border: none;
+      background: linear-gradient(135deg, #2f7de1, #1b64c4);
+      box-shadow: 0 8px 20px rgba(27, 100, 196, 0.3);
+    }
+
+    .app-login-buttons .btn-login-toggle:hover {
+      background: linear-gradient(135deg, #286fca, #1454a7);
+      border: none;
+    }
+
+    .btn-app img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
     }
 
     .btn-app {
@@ -113,6 +203,10 @@
       .auth-column {
         width: 100%;
         max-width: 420px;
+      }
+
+      .auth-card {
+        padding: 18px 14px;
       }
 
       .auth-column-right {
@@ -193,7 +287,8 @@
         </span>
 
         <div class="auth-layout">
-          <div class="login100-form validate-form auth-column auth-column-left">
+          <div id="usernamePasswordSection" class="login100-form validate-form auth-column auth-column-left auth-card auth-column-hidden">
+            <div class="auth-card-title">เข้าสู่ระบบด้วย Username/Password</div>
             <span class="login100-form-subtitle" id="message" style="display: none;">
               Username หรือ รหัสผ่านผ่านไม่ถูกต้อง
             </span>
@@ -225,13 +320,19 @@
             </div>
           </div>
 
-          <div class="login100-form auth-column auth-column-right">
+          <div class="login100-form auth-column auth-column-right auth-card">
+            <div class="auth-card-title">เลือกวิธีเข้าสู่ระบบ</div>
             <div class="container-login100-form-btn app-login-buttons">
-              <button class="btn-app" type="button" onclick="goToMyMOPH()">
-                <img src="https://internet-authen.moph.go.th/images/mymoph-v8-go-green.png" height="30"> &nbsp; MyMOPH
+              <button class="btn-app btn-app-with-logo" type="button" onclick="goToMyMOPH()">
+                <img src="./images/mymoph-v8-go-green.png" alt="MyMOPH logo" height="30">
+                <span class="btn-app-label">MyMOPH</span>
               </button>
-              <button class="btn-app" type="button" onclick="goToThaiD()">
-                <img src="https://internet-authen.moph.go.th/images/ThaID.png" height="30"> &nbsp; ThaID
+              <button class="btn-app btn-app-with-logo" type="button" onclick="goToThaiD()">
+                <img src="./images/ThaID.png" alt="ThaID logo" height="30">
+                <span class="btn-app-label">ThaID</span>
+              </button>
+              <button id="btnShowUsernamePassword" class="btn-app btn-login-toggle" type="button" onclick="showUsernamePasswordLogin()">
+                Login ด้วย Username/Password
               </button>
             </div>
           </div>
@@ -256,29 +357,14 @@
             </a>
           </div> -->
         </div>
-        <table style="width:100%" class="mobile-hide">
+        <table style="width:100%" class="mobile-hide desktop-contact">
           <!-- <tr>
             <td>&nbsp;</td>
             <td></td>
             <td></td>
           </tr> -->
           <tr>
-            <td style="width:40%">
-              <!-- <a href="http://mymoph.moph.go.th" target="_blank">
-                <img src="./images/logo.png" style="width:100%" alt="mymoph.moph.go.th"><br>
-                
-              </a> -->
-              <!-- <span id="qr-hide" onclick="showQR()" style="cursor: pointer;">หรือ สแกน QR คลิก</span> -->
-            </td>
-            <td style="width:25%;">
-              <div id="qr-show" style="display: none;" onclick="hideQR()">
-                <img src="./images/download.png" style="width:30%" alt="">
-              </div>
-              <!-- <div id="qr-hide" onclick="showQR()">
-                show qr
-              </div> -->
-            </td>
-            <td style="width:35%;text-align: right;">
+            <td style="width:100%;text-align: right;">
               <p>
                 ศูนย์เทคโนโลยีสารสนเทศและการสื่อสาร
                 <br>
@@ -474,6 +560,21 @@
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
       doLogin(username, password);
+    }
+
+    function showUsernamePasswordLogin() {
+      const section = document.getElementById("usernamePasswordSection");
+      if (section) {
+        section.classList.remove("auth-column-hidden");
+      }
+      const toggleBtn = document.getElementById("btnShowUsernamePassword");
+      if (toggleBtn) {
+        toggleBtn.textContent = "กรอก Username/Password ด้านซ้าย";
+      }
+      const usernameInput = document.getElementById("username");
+      if (usernameInput) {
+        usernameInput.focus();
+      }
     }
 
     async function goToMyMOPH() {
